@@ -10,7 +10,7 @@ class Product(models.Model):
     creationDate = models.DateTimeField('Creation Date', blank = True)
     businessID = models.IntegerField("Seller")
     productID = models.IntegerField("Product ID")
-
+    productImage = models.ImageField(null = True, blank = True, upload_to="images/")
 
     def __str__(self):
         return self.name
@@ -34,5 +34,5 @@ class Bussiness(models.Model):
     def __str__(self):
          return self.email
     
-
+# note str has two '_'then str then agian two
         
