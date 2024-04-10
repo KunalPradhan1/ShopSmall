@@ -1,0 +1,10 @@
+{% extends "shop/home.html" %}
+
+{% block content %}
+    {% for product in products%}
+        <h2>{{ product.name }}</h2>
+        <p> By {{ product.seller }} on {{ product.date_posted}}</p>
+
+    {% endfor %}
+    
+{% endblock content %}
