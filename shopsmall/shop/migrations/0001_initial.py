@@ -15,7 +15,10 @@ class Migration(migrations.Migration):
             name='testTable',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('userName', models.CharField(max_length=20)),
+                ('firstName', models.CharField(max_length=20)),
+                ('lastName', models.CharField(max_length=20)),
+                ( 'email' , models.CharField(max_length = 200)),
+                ('date_created' , models.DateTimeField(auto_now_add = True)),
                 ('password', models.CharField(max_length=64, unique=True)),
             ],
         ),
