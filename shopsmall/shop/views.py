@@ -22,22 +22,23 @@ def register_user(request):
         myuser.lastName = lastName 
         myuser.save()
         messages.success(request, "Your account has been successfully created!")
-        return redirect('home')
-    return render(request, "members/register.html")
+        return redirect('login')
+    return render(request, "shopComponents/register.html")
     
 
 def login_user(request): 
     if request.method == "POST": 
         pass 
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('shopComponenets/home.html')
+            fname = user.firstName
+            return render(request, "shopComponenets/dashboard.html", {'fname': fname})
 
         else:
-            messages.success(request, ("Incorrect Username or Password"))
-            return render(request, 'shopComponents/home.html')
+            messages.error(request, (request, "Incorrect Username or Password"))
+            return redirect('login')
     else: 
-        return render(request, 'members/login.html')
+        return render(request, 'shopComponents/login.html')
