@@ -10,17 +10,18 @@
 <body>
     {%include 'shopComponents/navbar.html'%}
     {%block content %}
-    <form action = "/login_user" method = "POST">
+    <form action = "/login/" method = "POST">
         {% csrf_token %}
-        <label for =""> Username</label>
+        {{loginform.as_p}}
+        <!-- <label for =""> Username</label>
         <input type = "text" id = "username" name = "username" placeholder = "Enter Username" Required>
         <br>
         <label for =""> Password</label>
         <input type = "password" id = "password" name = "password" placeholder = "Enter Password Required">
         <br>
 
-        <button type  = "submit">Log In</button>
-
+        <button type= "submit">Log In</button> -->
+        <input type="submit" value = "Login"/>
       </form>
     {%endblock content%}
     

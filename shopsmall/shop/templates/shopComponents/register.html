@@ -10,9 +10,10 @@
 <body>
     {%include 'shopComponents/navbar.html'%}
     {%block content %}
-    <form actions = "/register_user" method = "POST">
+    <form actions = "/register" method = "POST" autocomplete="off">
         {% csrf_token %}
-        <label for =""> Username</label>
+        {{registerform.as_p}}
+        <!-- <label for =""> Username</label>
         <input type = "text" id = "username" name = "username" placeholder = "Create a username" Required>
         <br>
         <label for =""> First Name </label>
@@ -30,7 +31,8 @@
         <label for =""> Repeat Password</label>
         <input type = "password" id = "rePassword" name = "rePassword" placeholder = "Repeat your password" Required>
         <br>
-        <button type = "submit">Register</button>
+        <button type = "submit">Register</button> -->
+        <input type = "submit" value = "Register">
     </form>
     {%endblock content%}
     

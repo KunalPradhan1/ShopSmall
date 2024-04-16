@@ -10,6 +10,15 @@
 <body>
     {%include 'shopComponents/navbar.html'%}
     {%block content %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role = "alert">
+      <strong>Message: </strong> {{message}}
+      <button type = "button" class = "close" data-dismiss="alert" aria-label = "Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    <!-- <h3>Hello {{fname}}</h3> -->
     <div class="container mt-5">
         <div class="order-form">
           <h2>Place Your Order</h2>
@@ -70,7 +79,7 @@
           `).join('');
         }
       </script>
+      <a href="{% url 'logout' %}">Logout</a>
     {%endblock content%}
-    
 </body>
 </html>
