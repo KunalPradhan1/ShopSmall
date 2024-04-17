@@ -4,14 +4,17 @@ products = [
     {
         'seller': 'Karan',
         'name': 'car',
-        'Price': '$100',
-        'date_posted': 'April 4th'
+        'price': '$100',
+        'date_posted': 'April 4th',
+        'content': "an vehicle"
     },
     {
         'seller': 'Ryan ',
         'name': 'water bottle',
-        'Price': '$10',
-        'date_posted': 'April 5th'
+        'price': '$10',
+        'date_posted': 'April 5th',
+        'content': "contians water"
+
     }
 
 ]
@@ -22,8 +25,16 @@ def home(request):
 
 # request
 
-def about(request):
+def product(request):
     context = {
+        'title': 'product',
         'products': products
     }
     return render(request, "shop/product.html", context)
+
+
+def base(request):
+    prod = {
+        'products': products
+    }
+    return render(request, "shop/base.html", prod)
