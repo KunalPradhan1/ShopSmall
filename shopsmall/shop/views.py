@@ -24,3 +24,6 @@ def login_user(request):
             return render(request, 'shopComponents/home.html')
     else: 
         return render(request, 'members/login.html')
+    
+def search(request):
+    return render(request,"shopComponents/search.html")
