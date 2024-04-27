@@ -10,9 +10,9 @@
 <body>
     {%include 'shopComponents/navbar.html'%}
     {%block content %}
-    <form action = "/login/" method = "POST">
+    <form action = "customer/login/" method = "POST">
         {% csrf_token %}
-        {{loginform.as_p}}
+        {{customerLogin.as_p}}
         <!-- <label for =""> Username</label>
         <input type = "text" id = "username" name = "username" placeholder = "Enter Username" Required>
         <br>

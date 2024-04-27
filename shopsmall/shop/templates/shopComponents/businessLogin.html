@@ -10,12 +10,19 @@
 <body>
     {%include 'shopComponents/navbar.html'%}
     {%block content %}
-    <form actions = "/register" method = "POST" autocomplete="off">
+    <form action = "/businessLogin/" method = "POST">
         {% csrf_token %}
-        {{customerRegister.as_p}}
-        
-        <input type = "submit" value = "Register">
-    </form>
+        {{businessLogin.as_p}}
+        <!-- <label for =""> Username</label>
+        <input type = "text" id = "username" name = "username" placeholder = "Enter Username" Required>
+        <br>
+        <label for =""> Password</label>
+        <input type = "password" id = "password" name = "password" placeholder = "Enter Password Required">
+        <br>
+
+        <button type= "submit">Log In</button> -->
+        <input type="submit" value = "Login"/>
+      </form>
     {%endblock content%}
     
 </body>

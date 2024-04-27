@@ -1,15 +1,25 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from shop.models import Customer, Business
 from django import forms
 from django.forms.widgets import PasswordInput, TextInput
 
-class CreateUserForm(UserCreationForm): 
+
+class CustomerRegistrationForm(UserCreationForm): 
     class Meta: 
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        model = Customer
+        fields = ('username', 'email', 'password', 'location')
 
+class CustomerLoginForm(AuthenticationForm): 
+    class Meta:
+        model = Customer
+        fields = ('username', 'password')
 
-#authenticate a user (model form)
-class LoginForm(AuthenticationForm): 
-    username = forms.CharField(widget = TextInput())
-    password = forms.CharField(widget = PasswordInput())
+class BusinessRegistrationForm(UserCreationForm): 
+    class Meta:
+        model = Business
+        fields = ('email', 'business_name', 'password')
+
+class BusinessLoginForm(AuthenticationForm): 
+    class Meta: 
+        model = Business 
+        fields = ('email', 'password')
