@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
+from .forms import CustomerRegistrationForm, BusinessRegistrationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-from . forms import CustomerRegistrationForm, CustomerLoginForm, BusinessLoginForm, BusinessRegistrationForm
+from django.views.generic import CreateView
+from .models import User
+
+from . forms import CustomerRegistrationForm, BusinessRegistrationForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 def home(request):
@@ -16,59 +21,44 @@ def businessDashboard(request):
     return render(request, "shopComponents/businessDashboard.html")
 
 
-def customerRegister(request): 
-    form = CustomerRegistrationForm()
-    if request.method == "POST":
-        form = CustomerRegistrationForm(request.POST)
+class customerRegister(CreateView):
+    model = User 
+    form_class = CustomerRegistrationForm
+    template_name = "shopComponents/register.html"
+
+    def form_valid(self, form): 
+        user = form.save()
+        login(self.request, user)
+        return redirect('dashboard')
+
+
+class businessRegister(CreateView):
+    model = User
+    form_class = BusinessRegistrationForm
+    template_name = 'shopComponents/businessRegister.html'
+
+    def form_valid(self, form): 
+        user = form.save()
+        login(self.request, user)
+        return redirect(businessDashboard)
+
+
+def userLogin(request):
+    if request.method=='POST':
+        form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("cLogin")
-    context = {'customerRegister': form}
-    return render(request, "shopComponents/register.html", context = context)
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None :
+                login(request,user)
+                return redirect('home')
+            else:
+                messages.error(request,"Invalid username or password")
+        else:
+                messages.error(request,"Invalid username or password")
+    return render(request, 'shopComponents/login.html', context={'form':AuthenticationForm()})
 
-def customerLogin(request): 
-    form = CustomerLoginForm()
-    if request.method == "POST":
-        form = CustomerLoginForm(request, data = request.POST)
-        if form.is_valid():
-            username = request.POST.get('username')
-            password = request.POST.get('password')
-            customer = authenticate(username = username, password = password)
-            
-            if customer is not None:
-                request.session['customer_username'] = customer.username
-                auth.login(request, customer)
-                return redirect("cDashboard")
-    context = {'customerLogin':form}
-    return render(request, "shopComponents/login.html", context = context)
-
-
-#Business Views
-def businessRegister(request): 
-    form = BusinessRegistrationForm()
-    if request.method == "POST":
-        form = BusinessRegistrationForm(request.POST)
-        if form.is_valid(): 
-            form.save()
-            return redirect("bLogin")
-    context = {'businessRegister': form}
-    return render(request, "shopComponents/businessRegister.html", context=context)
-
-
-def businessLogin(request):
-    form = BusinessLoginForm()
-    if request.method == "POST":
-        form = BusinessLoginForm(request, data=request.POST)
-        if form.is_valid(): 
-            email = request.POST.get('email')
-            password = request.POST.get('password')
-            business = authenticate(email=email, password=password)
-            if business is not None: 
-               # request.session['business_email'] = business.email
-                auth.login(request,business)
-                return redirect("bDashboard")
-    context = {'businessLogin': form}
-    return render(request, 'shopComponents/login.html', context=context)
 
 def logout(request): 
     auth.logout(request)

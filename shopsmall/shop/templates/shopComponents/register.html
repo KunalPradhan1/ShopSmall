@@ -10,9 +10,9 @@
 <body>
     {%include 'shopComponents/navbar.html'%}
     {%block content %}
-    <form actions = "/register" method = "POST" autocomplete="off">
+    <form actions = "" method = "POST" autocomplete="off">
         {% csrf_token %}
-        {{customerRegister.as_p}}
+        {{form}}
         
         <input type = "submit" value = "Register">
     </form>

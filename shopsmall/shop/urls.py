@@ -5,10 +5,9 @@ from . import views
 urlpatterns = [
     path("", views.home, name="home"),
     path("customer/dashboard/", views.customerDashboard, name ="cDashboard"), 
-    path("customer/login/", views.customerLogin, name = "cLogin"), 
-    path("customer/register/", views.customerRegister, name = "cRegister"),
-    path("business/register/", views.businessRegister, name = "bRegister"),
-    path("business/login/", views.businessLogin, name = "bLogin"),
+    path("login/", views.userLogin, name = "login"), 
+    path("customer/register/", views.customerRegister.as_view(), name = "cRegister"),
+    path("business/register/", views.businessRegister.as_view(), name = "bRegister"),
     path("business/dashboard/", views.businessDashboard, name = "bDashboard"),
     path("logout/", views.logout, name = "logout")
 ]

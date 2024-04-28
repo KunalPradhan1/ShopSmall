@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,7 @@ SECRET_KEY = 'django-insecure-#)49x2&6yrsl+h*a#*+!*md25j#7tcn60@t-==6m)abm3vycsp
 DEBUG = True
 
 ALLOWED_HOSTS = []
+AUTH_USER_MODEL = 'shop.User'
 
 
 # Application definition
@@ -37,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "shop", 
+    'shop', 
 ]
 
 MIDDLEWARE = [
