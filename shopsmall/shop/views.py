@@ -10,10 +10,18 @@ def home(request):
 
 @login_required(login_url = "login")
 def customerDashboard(request):
-    return render(request, "shopComponents/dashboard.html")
+    if getattr(request.user, 'is_customer', False):
+        print(request.user.is_customer)
+        return render(request, "shopComponents/dashboard.html")
+    else:
+        return redirect("login")
 
+@login_required(login_url = "login")
 def businessDashboard(request): 
-    return render(request, "shopComponents/businessDashboard.html")
+    if getattr(request.user, 'is_business', False):
+        return render(request, "shopComponents/businessDashboard.html")
+    else:
+        return redirect("login")
 
 
 def register(request):
