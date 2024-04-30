@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import testTable
+from .models import User
 
-# Register your models here.
-admin.site.register(testTable)
+admin.site.register(User)
