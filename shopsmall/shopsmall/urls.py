@@ -22,5 +22,5 @@ from django.http import HttpResponse
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("shop.urls")),
-    path("login/", include('django.contrib.auth.urls')),
+    # path("login/", include('django.contrib.auth.urls')),
 ]
