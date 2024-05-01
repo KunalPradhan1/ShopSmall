@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "jquery": "^3.7.1"
+    "jquery": "^3.7.1",
+    "react-rating-stars-component": "^2.2.0"
   }
 }
