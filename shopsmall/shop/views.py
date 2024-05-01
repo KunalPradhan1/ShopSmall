@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, LoginForm
-from .models import User
+from .models import User, Product
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def home(request):
     return render(request, "shopComponents/home.html")
@@ -64,3 +65,15 @@ def login_view(request):
 def logout(request): 
     auth.logout(request)
     return redirect("home")
+
+
+def cart(request):
+    return render(request, "shopComponents/cart.html")
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        products = Product.objects.filter(name__startswith=searched)
+        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products})
+    else:
+        return render(request, "shopComponents/search.html")
