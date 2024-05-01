@@ -2,13 +2,6 @@ from django.db import models
 
 # Create your models here.
 class testTable(models.Model):
-<<<<<<< Updated upstream
-    userName = models.CharField(max_length=20)
-    password = models.CharField(max_length=64, unique=True)
-
-
-
-=======
     firstName = models.CharField(max_length=200, default='SOME STRING')
     lastName = models.CharField(max_length=200, default='SOME STRING')
     email = models.CharField(max_length=200, default='SOME STRING')
@@ -20,5 +13,4 @@ class testTable(models.Model):
     
 
     
->>>>>>> Stashed changes
     

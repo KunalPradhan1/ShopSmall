@@ -24,8 +24,9 @@ rel="stylesheet"
     <link rel="stylesheet" href="{% static 'css/search.css' %}">
 </head>
 <body>
-    this is search.html
     {%include 'shopComponents/navbar.html'%}
+    <p>Search term: {{ search_term }}</p>
+    <p>Search form: {{ search_form }}</p>
     <br>
     <div class="card1">
         <div class="card1-title">Outdoor Builders</div>
@@ -52,12 +53,50 @@ rel="stylesheet"
     </div>
     <br>
     <div class="card1">
-        hello
+        <div class="card1-title">Outdoor Builders</div>
+        <div class="card1-inner">
+        <img src="{% static 'images/Lightning_Mcqueen.png' %}" alt="">
+        <div class="right-side">
+        <div class="card1-stars">
+            <label class="rating-label">
+                <input
+                  class="rating"
+                  max="5"
+                  readonly
+                  step="0.01"
+                style="--value:2.5; margin-left: 51%; "
+                  type="range"
+                  value="3.37">
+
+            </label>
+        </div>
+        <h1 style="text-align: center;">Location</h1>
+            <p style="text-align: center;">123 Business ST San Jose, CA, 95112</p>
+        </div>
+        </div>
     </div>
+    <br>
     <div class="card1">
-        hello
-    </div>
-    <div class="card1">
-        hello
+        <div class="card1-title">Outdoor Builders</div>
+        <div class="card1-inner">
+        <img src="{% static 'images/Lightning_Mcqueen.png' %}" alt="">
+        <div class="right-side">
+        <div class="card1-stars">
+            <label class="rating-label">
+                <input
+                  class="rating"
+                  max="5"
+                  readonly
+                  step="0.01"
+                style="--value:2.5; margin-left: 51%; "
+                  type="range"
+                  value="3.37">
+
+            </label>
+        </div>
+        <h1 style="text-align: center;">Location</h1>
+            <p style="text-align: center;">123 Business ST San Jose, CA, 95112</p>
+        </div>
+        </div>
     </div>
 </body>
