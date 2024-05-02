@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, LoginForm
-from .models import User
+from .models import User, Product
 from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def home(request):
     return render(request, "shopComponents/home.html", {'user': request.user})
@@ -70,10 +71,10 @@ def business(request):
 def cart(request):
     return render(request, "members/cart.html")
 
-def search(request):
-    search_term = request.GET.get('search', '')
-    search_form = request.GET.get('SearchForm', '')
-    return render(request, "members/search.html",{ 'search_term': search_term, 'search_form': search_form })
+# def search(request):
+#     search_term = request.GET.get('search', '')
+#     search_form = request.GET.get('SearchForm', '')
+#     return render(request, "members/search.html",{ 'search_term': search_term, 'search_form': search_form }) 
 
 def login_user(request): 
     if request.method == "POST": 
@@ -90,3 +91,12 @@ def login_user(request):
             return render(request, 'shopComponents/home.html')
     else: 
         return render(request, 'members/login.html')
+
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        products = Product.objects.filter(name__startswith=searched)
+        return render(request, "members/search.html", {'searched':searched, 'products':products})
+    else:
+        return render(request, "members/search.html")
