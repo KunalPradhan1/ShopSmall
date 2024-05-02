@@ -20,6 +20,7 @@ def customerDashboard(request):
 @login_required(login_url = "login")
 def businessDashboard(request): 
     if getattr(request.user, 'is_business', False):
+        print(request.user.id)
         return render(request, "shopComponents/businessDashboard.html")
     else:
         return redirect("login")
@@ -100,7 +101,6 @@ def search(request):
         return render(request, "shopComponents/search.html", {'searched':searched, 'products':products})
     else:
         return render(request, "shopComponents/search.html")
-        return render(request, "members/search.html")
     
 
 
