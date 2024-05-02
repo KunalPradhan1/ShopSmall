@@ -100,38 +100,3 @@ def search(request):
         return render(request, "members/search.html", {'searched':searched, 'products':products})
     else:
         return render(request, "members/search.html")
-    
-
-
-def product(request):
-    context = {
-        'title': 'product',
-        'products': Product.objects.all()
-    }
-    return render(request, "shop/product.html", context)
-
-
-def base(request):
-    prod = {
-        'products': Product.objects.all()
-    }
-    return render(request, "shop/base.html", prod)
-
-def createProduct(request):
-   
-    if request.method == 'POST':
-        seller1 = request.POST['seller']
-        name1 = request.POST['name']
-        price1 = request.POST['price']
-        content1 = request.POST['content']
-        product = Product(name = name1, price = price1, content = content1, businessID = 2, productID = 1, seller = seller1)
-        product.save()
-        context = {
-        'title': 'product',
-        'products': Product.objects.all()
-         }
-        return render(request, "shop/product.html", context)
-
-
-    
-    return render(request, "shop/createproduct.html")
