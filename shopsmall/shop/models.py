@@ -12,6 +12,9 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='static/images/', default = "/static/images/Lightning_McQueen.png")
+    businessID = models.IntegerField(null = True)
+    productID = models.IntegerField(null = True)
+    seller = models.CharField(max_length=100, default= 'ShopSmall Company')
 
     def __str__(self):
         return self.name

@@ -125,7 +125,7 @@ def createProduct(request):
         name1 = request.POST['name']
         price1 = request.POST['price']
         content1 = request.POST['content']
-        product = Product(name = name1, price = price1, content = content1, businessID = 2, productID = 1, seller = seller1)
+        product = Product(name = name1, price = price1, description = content1, businessID = 2, productID = 1, seller = seller1)
         product.save()
         context = {
         'title': 'product',
