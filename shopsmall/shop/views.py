@@ -1,29 +1,13 @@
-from django.shortcuts import render,HttpResponse
-from .models import Product
-
-#Dummy Data 
-# products = [
-#     {
-#         'seller': 'Karan',
-#         'name': 'car',
-#         'price': '$100',
-#         'date_posted': 'April 4th',
-#         'content': "an vehicle"
-#     },
-#     {
-#         'seller': 'Ryan ',
-#         'name': 'water bottle',
-#         'price': '$10',
-#         'date_posted': 'April 5th',
-#         'content': "contians water"
-
-#     }
-
-# ]
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import auth
+from django.contrib.auth import authenticate, login, logout
+from .forms import SignUpForm, LoginForm
+from .models import User, Product
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def home(request):
-    return render(request, "shop/shopComponents/home.html", {'user': request.user})
+    return render(request, "shopComponents/home.html", {'user': request.user})
 
 @login_required(login_url = "login")
 def customerDashboard(request):
@@ -116,9 +100,8 @@ def search(request):
         return render(request, "members/search.html", {'searched':searched, 'products':products})
     else:
         return render(request, "members/search.html")
+    
 
-
-# request
 
 def product(request):
     context = {
