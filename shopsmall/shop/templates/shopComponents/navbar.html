@@ -32,7 +32,7 @@
       </ul>
       <form method=POST action="{% url 'search' %}">
         {% csrf_token %}
-        <input type="search" placeholder="Search.." name="search"  name="searched">
+        <input type="search" placeholder="Search.." name="searched">
         <input type="radio" id="business" name="SearchForm" value="Business">Business
         <input type="radio" id="products" name="SearchForm" value="Products"> Products
         <button type="submit">Submit</button>

@@ -97,6 +97,6 @@ def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
         products = Product.objects.filter(name__startswith=searched)
-        return render(request, "members/search.html", {'searched':searched, 'products':products})
+        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products})
     else:
-        return render(request, "members/search.html")
+        return render(request, "shopComponents/search.html")
