@@ -1,0 +1,53 @@
+.title1 {
+    font-size: 80px;
+    font-weight: 600;
+    text-align: center;
+}
+.business{
+    padding: 10px;
+}
+
+.business img {
+    width: 60%;
+    height: 50vh;
+    border: 2px solid black;
+    object-fit: cover;
+    border-radius: 5%;
+    float: left;
+
+}
+
+.business .description{
+    font-size: 25px;
+    font-weight: 600;
+    margin-left: 20px;
+    text-align: center;
+    vertical-align: top;
+}
+.business .description p {
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 20px;
+    width: 39%; /* Adjust this value to suit your needs */
+    word-wrap: break-word;
+    float: left;
+    text-align: left;
+}
+
+.business .location{
+    font-size: 25px;
+    font-weight: 600;
+    margin-left: 20px;
+    text-align: center;
+    vertical-align: top;
+}
+
+.business .location p {
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 20px;
+    width: 39%; /* Adjust this value to suit your needs */
+    word-wrap: break-word;
+    float: left;
+    text-align: left;
+}
