@@ -33,3 +33,15 @@ def login_user(request):
             return render(request, 'shopComponents/home.html')
     else: 
         return render(request, 'members/login.html')
+<<<<<<< Updated upstream
+=======
+
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        products = Product.objects.filter(name__startswith=searched)
+        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products})
+    else:
+        return render(request, "shopComponents/search.html")
+>>>>>>> Stashed changes
