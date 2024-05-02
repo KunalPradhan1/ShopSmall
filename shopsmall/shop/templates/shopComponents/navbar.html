@@ -30,14 +30,9 @@
         </li>
         </ul>
       </ul>
-<<<<<<< Updated upstream
-      <form action="/search" method="GET">
-        <input type="text" placeholder="Search.." name="search">
-=======
       <form method=POST action="{% url 'search'%}">
         {% csrf_token %}
         <input type="search" placeholder="Search.."  name="searched">
->>>>>>> Stashed changes
         <input type="radio" id="business" name="SearchForm" value="Business">Business
         <input type="radio" id="products" name="SearchForm" value="Products"> Products
         <button type="submit">Submit</button>

@@ -13,10 +13,10 @@ def business(request):
 def cart(request):
     return render(request, "members/cart.html")
 
-def search(request):
-    search_term = request.GET.get('search', '')
-    search_form = request.GET.get('SearchForm', '')
-    return render(request, "members/search.html",{ 'search_term': search_term, 'search_form': search_form })
+#def search(request):
+  #  search_term = request.GET.get('search', '')
+  #  search_form = request.GET.get('SearchForm', '')
+  #  return render(request, "members/search.html",{ 'search_term': search_term, 'search_form': search_form })
 
 def login_user(request): 
     if request.method == "POST": 
@@ -33,8 +33,7 @@ def login_user(request):
             return render(request, 'shopComponents/home.html')
     else: 
         return render(request, 'members/login.html')
-<<<<<<< Updated upstream
-=======
+
 
 
 def search(request):
@@ -44,4 +43,4 @@ def search(request):
         return render(request, "shopComponents/search.html", {'searched':searched, 'products':products})
     else:
         return render(request, "shopComponents/search.html")
->>>>>>> Stashed changes
+
