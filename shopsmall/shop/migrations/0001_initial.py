@@ -21,14 +21,9 @@ class Migration(migrations.Migration):
             name='Product',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=120, verbose_name='Product Name')),
-                ('content', models.TextField(default='None', verbose_name='Content')),
-                ('date_posted', models.DateTimeField(auto_now_add=True, verbose_name='Creation Date')),
-                ('seller', models.CharField(default='ShopSmall', max_length=120, verbose_name='Seller Name')),
-                ('price', models.CharField(default='$0', max_length=120, verbose_name='Price')),
-                ('businessID', models.IntegerField(verbose_name='Seller')),
-                ('productID', models.IntegerField(verbose_name='Product ID')),
-                ('productImage', models.ImageField(blank=True, null=True, upload_to='images/')),
+                ('name', models.CharField(max_length=100)),
+                ('description', models.TextField()),
+                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
             ],
         ),
         migrations.CreateModel(
