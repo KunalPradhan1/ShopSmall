@@ -2,17 +2,17 @@
 
 {% block content %}
     {% for product in products%}
-    <article class="media content-section">
-        <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="#">{{ product.price }}</a>
-            <small class="text-muted">on {{ product.date_posted}}</small>
-          </div>
-          <h2><a class="article-title" href="#">{{ product.name }}</a></h2>
-          <p class="article-content">{{ product.seller }}</p>
-        </div>
-      </article>
+    <div class="card">
+
+      <img src="{{ product.image.url }}" />
+      <h1>{{ product.name }}</h1>
+      <p class="price">${{ product.price }}</p>
+      <p>sold by {{ product.seller }}</p>
+      <p><button>Add to Cart</button></p>
+    </div>
     {% endfor %}
     
 {% endblock content %}
+
+
 
