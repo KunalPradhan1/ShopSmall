@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
+from django.utils import timezone
 from .forms import SignUpForm, LoginForm
 from .models import User, Product
 from django.contrib.auth.decorators import login_required
@@ -21,8 +22,12 @@ def customerDashboard(request):
 @login_required(login_url = "login")
 def businessDashboard(request): 
     if getattr(request.user, 'is_business', False):
-        print(request.user.id)
-        return render(request, "shopComponents/businessDashboard.html")
+        user_products = Product.objects.filter(businessID = request.user.id)
+        context = {
+        'title': 'product',
+        'products': user_products
+         }
+        return render(request, "shopComponents/businessDashboard.html", context)
     else:
         return redirect("login")
 
@@ -78,23 +83,8 @@ def cart(request):
 #     search_form = request.GET.get('SearchForm', '')
 #     return render(request, "members/search.html",{ 'search_term': search_term, 'search_form': search_form }) 
 
-def login_user(request): 
-    if request.method == "POST": 
-        pass 
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('shopComponenets/home.html')
 
-        else:
-            messages.success(request, ("Incorrect Username or Password"))
-            return render(request, 'shopComponents/home.html')
-    else: 
-        return render(request, 'members/login.html')
-
-
+@login_required(login_url = "login")
 def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
@@ -104,36 +94,34 @@ def search(request):
         return render(request, "shopComponents/search.html")
     
 
-
-def product(request):
-    context = {
-        'title': 'product',
-        'products': Product.objects.all()
-    }
-    return render(request, "shop/product.html", context)
-
-
-def base(request):
-    prod = {
-        'products': Product.objects.all()
-    }
-    return render(request, "shop/base.html", prod)
-
+@login_required(login_url = "login")
 def createProduct(request):
-   
     if request.method == 'POST':
-        seller1 = request.POST['seller']
         name1 = request.POST['name']
         price1 = request.POST['price']
         content1 = request.POST['content']
-        product = Product(name = name1, price = price1, description = content1, businessID = 2, productID = 1, seller = seller1)
+        inventory = request.POST['inventory']
+        date = timezone.now()
+        image = request.FILES.get('image')
+        product = Product(name = name1, price = price1, description = content1, inventory = inventory, last_updated = date, image = image, businessID = request.user.id)
         product.save()
+        user_products = Product.objects.filter(businessID = request.user.id)
         context = {
         'title': 'product',
-        'products': Product.objects.all()
+        'products': user_products
          }
-        return render(request, "shop/product.html", context)
+        return render(request, "shopComponents/businessDashboard.html", context)
 
 
     
     return render(request, "shop/createproduct.html")
+
+
+
+@login_required(login_url = "login")
+def base(request):
+    businessProducts = Product.objects.filter(businessID = request.user.id)
+    prod = {
+        'products': Product.objects.all()
+    }
+    return render(request, "shop/base.html", prod)

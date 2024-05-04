@@ -5,81 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+        .products-container {
+            margin-top: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .product-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .product-item:last-child {
+            border-bottom: none;
+        }
+        .product-title {
+            margin-top: 0;
+            color: #333;
+        }
+        .product-price {
+            font-weight: bold;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-    {%include 'shopComponents/navbar.html'%}
-    {%block content %}
-    {% for message in messages %}
-    <div class="alert alert-{{message.tags}} alert-dismissible fade show" role = "alert">
-      <strong>Message: </strong> {{message}}
-      <button type = "button" class = "close" data-dismiss="alert" aria-label = "Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    {% endfor %}
-    <!-- <h3>Hello {{fname}}</h3> -->
-    <div class="container mt-5">
-        <div class="order-form">
-          <h2>Place Your Order</h2>
-          <div class="form-group">
-            <label for="businessSelect">Select Business:</label>
-            <select class="form-control" id="businessSelect">
-              <option value="Business 1">Business 1</option>
-              <option value="Business 2">Business 2</option>
-              <option value="Business 3">Business 3</option>
-              <!-- Add more businesses as needed -->
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="productInput">What are you purchasing?</label>
-            <input type="text" class="form-control" id="productInput" placeholder="Item name">
-          </div>
-          <button class="btn btn-primary" onclick="placeOrder()">Place Order</button>
-          
-          <h3 class="mt-4">Past Orders</h3>
-          <ul class="list-group" id="ordersList">
-            <!-- Past orders will be listed here -->
-          </ul>
+    {% include 'shopComponents/navbar.html' %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 products-container">
+                <h1 class="text-center">Products</h1>
+                {% for product in products %}
+                    <div class="product-item">
+                        <h2 class="product-title">Name : {{ product.name }}</h2>
+                        <span class="product-price">Price: ${{ product.price }}</span>
+                        <p><small class="text-muted">Last Updated: {{ product.last_updated}}</small></p>
+                        <p><small class="text-muted">Inventory: {{ product.inventory}}</small></p>
+                        <img src = "{{product.image.url}}"/>"
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-      </div>
-      
-      <!-- Bootstrap JS and its dependencies -->
-      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-      <script>
-        let orders = [];
-      
-        function placeOrder() {
-          const business = document.getElementById('businessSelect').value;
-          const product = document.getElementById('productInput').value;
-          const timestamp = new Date().toLocaleString();
-          const order = { business, product, timestamp };
-      
-          // Add the new order to the start of the orders array
-          orders.unshift(order);
-      
-          // Keep only the latest 5 orders
-          orders = orders.slice(0, 5);
-      
-          // Update the orders list UI
-          updateOrdersList();
-          
-          // Clear the product input
-          document.getElementById('productInput').value = '';
-        }
-      
-        function updateOrdersList() {
-          const ordersList = document.getElementById('ordersList');
-          ordersList.innerHTML = orders.map(order => `
-            <li class="list-group-item">
-              <strong>${order.business}</strong>: ${order.product} - ${order.timestamp}
-            </li>
-          `).join('');
-        }
-      </script>
-      <a href="{% url 'logout' %}">Logout</a>
-    {%endblock content%}
+    </div>
+    <a href="{% url 'logout' %}">Logout</a>
 </body>
 </html>

@@ -29,6 +29,8 @@ DEBUG = True
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'shop.User'
 
+TIME_ZONE = 'US/Pacific'
+USE_TZ = True
 
 # Application definition
 
