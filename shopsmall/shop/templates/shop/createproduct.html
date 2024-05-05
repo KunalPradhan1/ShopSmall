@@ -15,106 +15,69 @@
     <!-- Author: FormBold Team -->
     <!-- Learn More: https://formbold.com -->
     <div class="formbold-form-wrapper">
-      <form action="" method="POST"> {% csrf_token %}
-          <div class="formbold-input-flex">
+      <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="formbold-input-flex">
             <div>
                 <label for="firstname" class="formbold-form-label"> Product Name</label>
                 <input
-                type="text"
-                name="name"
-                id="firstname"
-                placeholder="Car"
-                class="formbold-form-input"
+                    type="text"
+                    name="name"
+                    id="firstname"
+                    placeholder="Car"
+                    class="formbold-form-input"
                 />
             </div>
-            <div>
-                <label for="lastname" class="formbold-form-label"> Seller </label>
-                <input
-                type="text"
-                name="seller"
-                id="lastname"
-                placeholder="Cooper"
-                class="formbold-form-input"
-                />
-            </div>
-          </div>
-  
-          <div class="formbold-input-flex">
+        </div>
+    
+        <div class="formbold-input-flex">
             <div>
                 <label for="email" class="formbold-form-label"> Price </label>
                 <input
-                name="price"
-                id="email"
-                placeholder="$100"
-                class="formbold-form-input"
+                    type="text"
+                    name="price"
+                    id="email"
+                    placeholder="$100"
+                    class="formbold-form-input"
                 />
             </div>
             <div>
-                <label for="phone" class="formbold-form-label">  </label>
+                <label for="inventory" class="formbold-form-label">Inventory Count</label>
                 <input
-                type="text"
-                name="phone"
-                id="phone"
-                placeholder="(319) 555-0115"
-                class="formbold-form-input"
+                    type="text"
+                    name="inventory"
+                    id="inventory"
+                    placeholder="0"
+                    class="formbold-form-input"
                 />
             </div>
-          </div>
-  
-          <div class="formbold-input-radio-wrapper">
-              <label for="jobtitle" class="formbold-form-label"> What are you looking for? </label>
-  
-              <div class="formbold-radio-flex">
-                <div class="formbold-radio-group">
-                  <label class="formbold-radio-label">
-                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
-                    Web Design
-                    <span class="formbold-radio-checkmark"></span>
-                  </label>
-                </div>
-  
-                <div class="formbold-radio-group">
-                  <label class="formbold-radio-label">
-                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
-                    Graphics Design
-                    <span class="formbold-radio-checkmark"></span>
-                  </label>
-                </div>
-  
-                <div class="formbold-radio-group">
-                  <label class="formbold-radio-label">
-                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
-                    Logo Design
-                    <span class="formbold-radio-checkmark"></span>
-                  </label>
-                </div>
-  
-                <div class="formbold-radio-group">
-                  <label class="formbold-radio-label">
-                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
-                    Others
-                    <span class="formbold-radio-checkmark"></span>
-                  </label>
-                </div>
-              </div>
-          </div>
-  
-          <div>
-              <label for="message" class="formbold-form-label"> Content </label>
-              <textarea
-                  rows="6"
-                  name="content"
-                  id="message"
-                  placeholder="Type your message"
-                  class="formbold-form-input"
-              ></textarea>
-          </div>
-          <button type = "submit" class="formbold-btn">
-              Send Message
-          </button>
-
-        
-      </form>
+        </div>
+    
+        <div>
+            <label for="productImage" class="formbold-form-label">Product Image</label>
+            <input
+                type="file"
+                name="image"
+                id="productImage"
+                accept=".png" 
+              />
+        </div>
+    
+        <div>
+            <label for="message" class="formbold-form-label"> Content </label>
+            <textarea
+                rows="6"
+                name="content"
+                id="message"
+                placeholder="Type your message"
+                class="formbold-form-input"
+            ></textarea>
+        </div>
+    
+        <button type="submit" class="formbold-btn">
+            Add Product
+        </button>
+    </form>
     </div>
   </div>
   <style>

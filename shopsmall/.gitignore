@@ -1,5 +1,6 @@
 __pycache__/
-* .pyc
-
+*.pyc
+*.img
+*.jpg
 #SQLite database file
-db.sqlite3
+db.sqlit
