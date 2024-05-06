@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-from django.conf import settings
 
 
 class User(AbstractUser): 
@@ -21,25 +20,10 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-class Business(models.Model):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete = models.CASCADE, 
-        primary_key = True, 
-        related_name = 'business_profile', 
-        default = 'Something'
-    )
-    businessName = models.CharField(max_length = 100)
-    about = models.TextField()
-    address = models.CharField(max_length = 50)
-    businessID = models.IntegerField(null = True, default = 0)
-
-class BusinessImage(models.Model):
-    business_profile = models.ForeignKey(Business, related_name='images', on_delete=models.CASCADE)
-    images = models.ImageField(null = True, blank = True, upload_to='images/', default = 'images\Balkarandeep_Singh_-_String_project.jpg')
-    businessID = models.IntegerField(null = True, default = 0)
-
-
+# class Business(models.Model):
+#     businessName = models.CharField(max_length = 100)
+#     introduction = models.TextField()
+#     address = 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     products = models.ManyToManyField(Product, through='CartItem')
