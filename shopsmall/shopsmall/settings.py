@@ -29,8 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'shop.User'
 
-TIME_ZONE = 'US/Pacific'
-USE_TZ = True
+
 
 # Application definition
 
@@ -110,11 +109,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'US/Pacific'
+USE_TZ = True
 
 USE_I18N = True
 
-USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
@@ -122,8 +122,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

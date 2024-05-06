@@ -36,22 +36,26 @@
 </head>
 <body>
     {% include 'shopComponents/navbar.html' %}
+    {% load static %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8 products-container">
                 <h1 class="text-center">Products</h1>
                 {% for product in products %}
                     <div class="product-item">
-                        <h2 class="product-title">Name : {{ product.name }}</h2>
-                        <span class="product-price">Price: ${{ product.price }}</span>
-                        <p><small class="text-muted">Last Updated: {{ product.last_updated}}</small></p>
-                        <p><small class="text-muted">Inventory: {{ product.inventory}}</small></p>
-                        <img src = "{{product.image.url}}"/>"
+                        <h2 class="product-title"><b>Name: </b>{{ product.name }}</h2>
+                        <span class="product-price"><b>Price: </b> ${{ product.price }}</span>
+                        <p><small class="text-muted"><b>Last Updated: </b>{{ product.last_updated}}</small></p>
+                        <p><small class="text-muted"><b>Inventory: </b>{{ product.inventory}} left </small></p>
+                        <p><small class="text-muted"><b>Product Description: </b>
+                          <br>
+                          {{ product.description}} left </small></p>
+
+                        <img src = "{{product.image.url}}" width="700" height="400"/>
                     </div>
                 {% endfor %}
             </div>
         </div>
     </div>
-    <a href="{% url 'logout' %}">Logout</a>
 </body>
 </html>
