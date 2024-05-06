@@ -12,7 +12,8 @@ urlpatterns = [
     path("business/", views.business, name = "business"),
     path("cart/", views.cart, name = "cart"),
     path("search/", views.search, name = "search"),
-    path("productAdd", views.createProduct, name = "add"), 
+    path("productAdd/", views.createProduct, name = "add"),
+    path("changeproduct/", views.changeproduct, name = "change"), 
     path("business/profileEdit/", views.businessProfileEdit, name = "bProfileEdit"), 
     path("business/profile/", views.businessProfile, name = "bProfile")
 ]
