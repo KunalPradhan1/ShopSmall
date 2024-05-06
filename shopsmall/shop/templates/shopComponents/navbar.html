@@ -26,9 +26,13 @@
         <button type="submit">Submit</button>
       </form>
       {% if user.is_authenticated%}
+        
         <li class="nav-item">
             <a class="nav-link" href="/cart">Cart</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/productAdd">Add Product</a>
+      </li>
         <li class="nav-item">
           <a class="nav-link" href="/logout">Logout</a>
         </li>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Products</title>
+    <title>Edit Business Profile</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
@@ -20,57 +20,50 @@
   {%include 'shopComponents/navbar.html'%}
 <div class="formbold-main-wrapper">
     <div class="formbold-form-wrapper">
-      <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Add Product</h1>
+      <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Business Profile</h1>
       <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="formbold-input-flex">
             <div>
-                <label for="firstname" class="formbold-form-label"> Product Name</label>
+                <label for="businessname" class="formbold-form-label">Business Name</label>
                 <input
                     type="text"
                     name="name"
-                    id="firstname"
-                    placeholder="Car"
+                    id="businessName"
+                    placeholder="Karan's Drugs"
                     class="formbold-form-input"
+                    required
                 />
             </div>
         </div>
     
         <div class="formbold-input-flex">
             <div>
-                <label for="email" class="formbold-form-label"> Price </label>
+                <label for="address" class="formbold-form-label">Business Address</label>
                 <input
                     type="text"
-                    name="price"
-                    id="email"
-                    placeholder="$100"
+                    name="address"
+                    id="address"
+                    placeholder="1 Washington Sq "
                     class="formbold-form-input"
-                />
-            </div>
-            <div>
-                <label for="inventory" class="formbold-form-label">Inventory Count</label>
-                <input
-                    type="text"
-                    name="inventory"
-                    id="inventory"
-                    placeholder="0"
-                    class="formbold-form-input"
+                    required
                 />
             </div>
         </div>
         <br>
         <div>
-            <label for="productImage" class="formbold-form-label">Product Image</label>
+            <label for="businessImage" class="formbold-form-label">Product Image</label>
             <input
                 type="file"
-                name="image"
-                id="productImage"
+                multiple
+                name="images"
+                id="businessImage"
               />
         </div>
         <br>
         <br>
         <div>
-            <label for="message" class="formbold-form-label"> Content </label>
+            <label for="message" class="formbold-form-label"> About Us </label>
             <textarea
                 rows="6"
                 name="content"
@@ -81,7 +74,7 @@
         </div>
     
         <button type="submit" class="formbold-btn">
-            Add Product
+            Create Profile
         </button>
     </form>
     </div>
