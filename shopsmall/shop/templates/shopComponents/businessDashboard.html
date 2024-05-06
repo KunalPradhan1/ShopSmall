@@ -32,15 +32,32 @@
             font-weight: bold;
             color: #666;
         }
+
+        .button {
+            background-color: #044faa; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        
     </style>
 </head>
 <body>
+
     {% include 'shopComponents/navbar.html' %}
     {% load static %}
     <div class="container">
         <div class="row justify-content-center">
+            <a href="{% url 'add'%}" class="button">Create a Product</a>
+
             <div class="col-md-8 products-container">
                 <h1 class="text-center">Products</h1>
+
                 {% for product in products %}
                     <div class="product-item">
                         <h2 class="product-title"><b>Name: </b>{{ product.name }}</h2>
@@ -51,7 +68,7 @@
                           <br>
                           {{ product.description}} left </small></p>
 
-                        <img src = "{{product.image.url}}" width="700" height="400"/>
+                        <img src = "{{product.image.url}}" width="50%" height="50%"/>
                     </div>
                 {% endfor %}
             </div>
