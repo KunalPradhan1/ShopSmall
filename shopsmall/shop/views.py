@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
@@ -6,6 +6,7 @@ from django.utils import timezone
 from .forms import SignUpForm, LoginForm
 from .models import User, Product
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 # Create your views here.
 def home(request):
@@ -125,3 +126,46 @@ def base(request):
         'products': Product.objects.all()
     }
     return render(request, "shop/base.html", prod)
+
+
+@login_required(login_url = "login")
+def changeproduct(request):
+    if request.method == 'POST':
+        oldobj = request.POST['oldproduct']
+        name1 = request.POST['name']
+        price1 = request.POST['price']
+        content1 = request.POST['content']
+        inventory = request.POST['inventory']
+        date = timezone.now()
+
+        product = None
+        try:
+            product = Product.objects.get(name = oldobj, businessID = request.user.id)
+        except Product.DoesNotExist:
+            product = None
+            raise Http404("No product matches the given query.")
+
+        
+        if product is not None:
+            if name1 is not None:
+                product.name = name1
+
+            if price1 is not None:
+                product.price = price1
+            
+            if content1 is not None:
+                product.description = content1
+
+            if inventory is not None:
+                product.inventory = inventory
+            
+            product.last_updated = date
+            product.save()
+
+        user_products = Product.objects.filter(businessID = request.user.id)
+        context = {
+        'title': 'product',
+        'products': user_products
+         }
+        return render(request, "shopComponents/businessDashboard.html", context)
+    return render(request, "shop/product.html")
