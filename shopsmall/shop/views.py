@@ -16,7 +16,7 @@ def home(request):
 def customerDashboard(request):
     if getattr(request.user, 'is_customer', False):
         print(request.user.is_customer)
-        return render(request, "shopComponents/dashboard.html")
+        return render(request, "shopComponents/customerDash.html")
     else:
         return redirect("login")
 
@@ -75,13 +75,29 @@ def login_view(request):
 def logout(request): 
     auth.logout(request)
     return redirect("home")
+
 def business(request):
     return render(request, "shopComponents/business.html")
 
 def cart(request):
     return render(request, "members/cart.html")
 
+@login_required(login_url = "login")
+def view_profile(request):
+    if not getattr(request.user, 'is_customer', False):
+        return redirect("login")
 
+    business_id = request.GET.get('business_id')
+    findBusiness = get_object_or_404(Business, businessID = business_id)
+    findImage = BusinessImage.objects.filter(business_profile = findBusiness)
+    if(findImage.exists()):
+        print("exists")
+    context = {
+        'business': findBusiness, 
+        'images': findImage
+    }
+    return render(request, 'customer/viewProfile.html',context)
+    
 
 
 def search(request):
@@ -138,7 +154,7 @@ def businessProfile(request):
             }
             return render(request, "shopComponents/businessProfile.html", context)
         except Business.DoesNotExist:
-            return render(request, "shopComponents/register.html")  
+            return render(request, "shopComponents/businessProfileEdit.html")  
     else:
         return redirect("login")
 
@@ -155,6 +171,7 @@ def createProduct(request):
         inventory = request.POST['inventory']
         date = timezone.now()
         image = request.FILES.get('image')
+        # print(request.user.businessName)
         product = Product(name = name1, price = price1, description = content1, inventory = inventory, last_updated = date, image = image, businessID = request.user.id)
         product.save()
         user_products = Product.objects.filter(businessID = request.user.id)
