@@ -16,7 +16,7 @@ def home(request):
 def customerDashboard(request):
     if getattr(request.user, 'is_customer', False):
         print(request.user.is_customer)
-        return render(request, "shopComponents/dashboard.html")
+        return render(request, "shopComponents/customerDash.html")
     else:
         return redirect("login")
 
@@ -75,12 +75,26 @@ def login_view(request):
 def logout(request): 
     auth.logout(request)
     return redirect("home")
+
 def business(request):
     return render(request, "shopComponents/business.html")
 
 def cart(request):
     return render(request, "members/cart.html")
 
+@login_required(login_url = "login")
+def view_profile(request, business_id):
+    if not getattr(request.user, 'is_customer', False):
+        return redirect("login")
+    
+    findBusiness = Business.objects.filter(businessID = business_id)
+    findImage = BusinessImage.objects.filter(business_profile = findBusiness)
+    context = {
+        'business': findBusiness, 
+        'image': findImage
+    }
+    return render(request, 'customer/viewProfile.html')
+    
 
 
 def search(request):
@@ -137,7 +151,7 @@ def businessProfile(request):
             }
             return render(request, "shopComponents/businessProfile.html", context)
         except Business.DoesNotExist:
-            return render(request, "shopComponents/register.html")  
+            return render(request, "shopComponents/businessProfileEdit.html")  
     else:
         return redirect("login")
 
