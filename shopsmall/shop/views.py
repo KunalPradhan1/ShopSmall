@@ -97,6 +97,20 @@ def view_profile(request):
         'images': findImage
     }
     return render(request, 'customer/viewProfile.html',context)
+
+@login_required(login_url = "login")
+def view_products(request):
+    if not getattr(request.user, 'is_customer', False):
+        return redirect("login")
+
+    business_id = request.GET.get('business_id')
+    findProducts = Product.objects.filter(businessID = business_id)
+    if(findProducts.exists()):
+        print("exists")
+    context = {
+        'products': findProducts, 
+    }
+    return render(request, 'customer/viewProducts.html',context)
     
 
 
