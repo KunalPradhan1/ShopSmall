@@ -15,5 +15,6 @@ urlpatterns = [
     path("productAdd/", views.createProduct, name = "add"),
     path("business/profileEdit/", views.businessProfileEdit, name = "bProfileEdit"), 
     path("business/profile/", views.businessProfile, name = "bProfile"), 
-    path("view_profile/<int:business_id>/", views.view_profile, name= "view_profile")
+    path("business-profile", views.view_profile, name= "business-profile"), 
+    path("business-products", views.view_products, name = "business-products")
 ]
