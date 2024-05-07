@@ -40,7 +40,8 @@
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">Price: ${{ product.price }}</p>
-                            <a href="#" class="btn btn-primary">Buy Now</a>
+                            <p>{{product.businessID}}</p>
+                            <a href="{ % url 'business-profile' business_id = product.businessID %}" class="btn btn-primary">Buy Now</a>
                         </div>
                     </div>
                 </div>

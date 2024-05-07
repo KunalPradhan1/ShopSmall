@@ -83,7 +83,6 @@ def cart(request):
 
 
 
-
 def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
@@ -155,6 +154,7 @@ def createProduct(request):
         inventory = request.POST['inventory']
         date = timezone.now()
         image = request.FILES.get('image')
+        # print(request.user.businessName)
         product = Product(name = name1, price = price1, description = content1, inventory = inventory, last_updated = date, image = image, businessID = request.user.id)
         product.save()
         user_products = Product.objects.filter(businessID = request.user.id)
