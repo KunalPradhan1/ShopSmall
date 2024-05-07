@@ -3,4 +3,4 @@ __pycache__/
 *.img
 *.jpg
 #SQLite database file
-db.sqlit
+*.sqlite3
