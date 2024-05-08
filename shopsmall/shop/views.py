@@ -31,7 +31,7 @@ def businessDashboard(request):
         context = {
         'title': 'product',
         'products': user_products
-         }
+        }
         return render(request, "shopComponents/businessDashboard.html", context)
     else:
         return redirect("login")
@@ -64,7 +64,11 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None and user.is_business:
                 login(request, user)
-                return redirect('bDashboard')
+                profile = Business.objects.filter(businessID = request.user.id)
+                if profile.exists():
+                    return redirect('bDashboard')
+                else: 
+                    return redirect('bProfileEdit')
             elif user is not None and user.is_customer:
                 login(request, user)
                 return redirect('cDashboard')
@@ -187,8 +191,10 @@ def createProduct(request):
         inventory = request.POST['inventory']
         date = timezone.now()
         image = request.FILES.get('image')
-        # print(request.user.businessName)
-        product = Product(name = name1, price = price1, description = content1, inventory = inventory, last_updated = date, image = image, businessID = request.user.id)
+        findBusiness = Business.objects.filter(businessID = request.user.id)
+        for business in findBusiness: 
+            busName = business.businessName
+        product = Product(name = name1, price = price1, description = content1, inventory = inventory, last_updated = date, image = image, businessID = request.user.id, businessName = busName)
         product.save()
         user_products = Product.objects.filter(businessID = request.user.id)
         context = {
