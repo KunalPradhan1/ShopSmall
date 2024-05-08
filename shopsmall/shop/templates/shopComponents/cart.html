@@ -10,43 +10,49 @@
 
     {% include 'shopComponents/navbar.html' %}
 
-
 <div class="container mt-5">
     <h1 class="text-center mb-4">Shopping Cart</h1>
 
-    {%block content %}
-
     <div class="row">
         <div class="col-md-8">
-            <!-- cart items list -->
+            {% for item in items %}
             <div class="card mb-3">
-                <div class="card-body">
-                    <h5 class="card-title">Product Name</h5>
-                    <p class="card-text text-muted">Sample product text.</p>
-                    <p class="card-text">$19.99</p>
-                    <button class="btn btn-danger">Remove</button>
+                <div class="row no-gutters">
+                    <div class="col-md-4">
+                        <img src="{{ item.product.image.url }}" class="card-img" alt="{{ item.product.name }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.name }}</h5>
+                            <p class="card-text text-muted">{{ item.product.description }}</p>
+                            <p class="card-text">Unit Price: ${{ item.product.price }}</p>
+                            <p class="card-text">Quantity: {{ item.quantity }}</p>
+                            <button class="btn btn-danger" data-item-id="{{ item.id }}">Remove</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
+            {% empty %}
+            <p>No items in your cart.</p>
+            {% endfor %}
         </div>
 
-        <!-- order summary -->
+        <!-- Dynamic order summary -->
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Order Summary</h5>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-muted">Subtotal: $19.99</li>
-                        <li class="list-group-item text-muted">Tax: $2.00</li>
-                        <li class="list-group-item text-muted">Total: $21.99</li>
+                        <li class="list-group-item text-muted">Subtotal: ${{ total }}</li>
                     </ul>
                     <button class="btn btn-primary btn-block mt-3">Checkout</button>
                 </div>
             </div>
         </div>
     </div>
-    {%endblock content%}
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
