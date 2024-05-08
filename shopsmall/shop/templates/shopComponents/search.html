@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
@@ -41,16 +42,26 @@
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">Price: ${{ product.price }}</p>
-                            <div style="display: flex;">
-                                <form method="GET" action="{% url 'business-profile' %}" style="margin-right: 10px;">
+                            <div class="d-flex">
+                                <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+                                    <button type="submit">Add to Cart</button>
+                                </form>                            
+                                <form method="GET" action="{% url 'business-profile' %}">
+                                   
                                     <input type="hidden" name="business_id" value="{{ product.businessID }}">
                                     <button type="submit" class="btn btn-primary">Business Profile</button>
                                 </form>
                                 <form method="GET" action="{% url 'business-products' %}">
+                                    
                                     <input type="hidden" name="business_id" value="{{ product.businessID }}">
                                     <button type="submit" class="btn btn-primary">Products</button>
-                                </form>
-                            </div>                
+                                </form>                    
+                            </div>
+                                  
                          </div>
                     </div>
                 </div>
@@ -62,8 +73,30 @@
     {%endblock content %}
 
     <hr>
+
+    <script>
+        $('#add-to-cart-form').submit(function(e) {
+            e.preventDefault();  // Prevent form from submitting normally
+            var form = $(this);
+            var url = form.attr('action');
+            
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),  // Serialize form data
+                success: function(response) {
+                    alert('Product added to cart successfully!');
+                    // You can update the cart count or details on the page here
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('Error adding product to cart. Please try again.');
+                }
+            });
+        });
+        </script>
+
    
-<!-- 
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
