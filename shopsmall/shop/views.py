@@ -4,9 +4,13 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from .forms import SignUpForm, LoginForm
-from .models import User, Product, Business, BusinessImage
+from .models import User, Product, Business, BusinessImage, Cart, CartItem
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, JsonResponse
+from django.views.decorators.http import require_POST
+
+
+
 
 # Create your views here.
 def home(request):
@@ -79,8 +83,6 @@ def logout(request):
 def business(request):
     return render(request, "shopComponents/business.html")
 
-def cart(request):
-    return render(request, "members/cart.html")
 
 @login_required(login_url = "login")
 def view_profile(request):
@@ -195,3 +197,41 @@ def createProduct(request):
         }
         return render(request, "shopComponents/businessDashboard.html", context)
     return render(request, "shop/createproduct.html")
+
+
+@login_required
+def add_to_cart(request, product_id):
+    print("View called")
+    product = get_object_or_404(Product, id=product_id)
+    print("Product retrieved:", product)
+    quantity = int(request.POST.get('quantity', 1))
+    print("Quantity:", quantity)
+
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    print("Cart retrieved or created:", cart)
+
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    print("Cart item retrieved or created:", cart_item)
+
+    if not created:
+        cart_item.quantity += quantity
+    else:
+        cart_item.quantity = quantity
+
+    cart_item.save()
+    print("Cart item saved")
+    
+    return JsonResponse({'status': 'success', 'message': 'Product added to cart successfully'})
+
+
+def cart(request):
+    user = request.user
+    if user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(user=user, completed=False)  # Get or create an active cart
+        items = cart.items.all()  # Assuming the related_name for CartItem is 'items'
+        total = sum(item.product.price * item.quantity for item in items)  # Calculate total price
+        return render(request, 'shopComponents/cart.html', {'cart': cart, 'items': items, 'total': total})
+    else:
+        # Redirect or handle unauthenticated users
+        return render(request, 'shopComponents/login.html')
+    

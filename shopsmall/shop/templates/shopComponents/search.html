@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
@@ -40,6 +41,13 @@
                             <h5 class="card-title">{{ product.name }}</h5>
                             <p class="card-text">{{ product.description }}</p>
                             <p class="card-text">Price: ${{ product.price }}</p>
+                            <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+                                <button type="submit">Add to Cart</button>
+                            </form>                            
                             <form method="GET" action="{% url 'business-profile' %}">
                                
                                 <input type="hidden" name="business_id" value="{{ product.businessID }}">
@@ -61,6 +69,28 @@
     {%endblock content %}
 
     <hr>
+
+    <script>
+        $('#add-to-cart-form').submit(function(e) {
+            e.preventDefault();  // Prevent form from submitting normally
+            var form = $(this);
+            var url = form.attr('action');
+            
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: form.serialize(),  // Serialize form data
+                success: function(response) {
+                    alert('Product added to cart successfully!');
+                    // You can update the cart count or details on the page here
+                },
+                error: function(xhr, textStatus, errorThrown) {
+                    alert('Error adding product to cart. Please try again.');
+                }
+            });
+        });
+        </script>
+
    
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
