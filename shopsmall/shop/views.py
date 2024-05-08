@@ -147,16 +147,16 @@ def changeproduct(request):
 
         
         if product is not None:
-            if name1 is not None:
+            if name1 != '':
                 product.name = name1
 
-            if price1 is not None:
+            if price1 != '':
                 product.price = price1
             
-            if content1 is not None:
+            if content1 != '':
                 product.description = content1
 
-            if inventory is not None:
+            if inventory != '':
                 product.inventory = inventory
             
             product.last_updated = date
