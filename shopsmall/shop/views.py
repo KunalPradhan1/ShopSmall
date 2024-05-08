@@ -169,3 +169,28 @@ def changeproduct(request):
          }
         return render(request, "shopComponents/businessDashboard.html", context)
     return render(request, "shop/product.html")
+
+
+@login_required(login_url = "login")
+def delete(request):
+    if request.method == 'POST':
+        oldobj = request.POST['oldproduct']
+
+        product = None
+        try:
+            product = Product.objects.get(name = oldobj, businessID = request.user.id)
+        except Product.DoesNotExist:
+            product = None
+            raise Http404("No product matches the given query.")
+
+        
+
+        product.delete()
+
+        user_products = Product.objects.filter(businessID = request.user.id)
+        context = {
+        'title': 'product',
+        'products': user_products
+         }
+        return render(request, "shopComponents/businessDashboard.html", context)
+    return render(request, "shop/deleteproduct.html")
