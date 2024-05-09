@@ -20,6 +20,7 @@ class Product(models.Model):
     businessID = models.IntegerField(null = True, default = 0)
     inventory = models.IntegerField(default = 0)
     last_updated = models.DateTimeField(default=timezone.now, null=True)    
+    businessName = models.CharField(max_length = 100, default = 'None')
     def __str__(self):
         return self.name
 
