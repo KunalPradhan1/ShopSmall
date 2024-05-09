@@ -71,3 +71,13 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} (in {self.cart.user.username}'s Cart)"
+
+class Orders: 
+    order = models.ForeignKey(
+        Business, 
+        on_delete = models.CASCADE, 
+        related_name = 'business_orders'
+    )
+    order_placed = models.DateTimeField(default=timezone.now, null=True)  
+    cost = models.DecimalField(default = 0.00)
+
