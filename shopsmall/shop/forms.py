@@ -70,27 +70,28 @@ class SignUpForm(UserCreationForm):
     )
 
     is_business = forms.BooleanField(
-    label = "Business",
-    widget=forms.CheckboxInput(
-        attrs={
-             "style": "transform: scale(1.25);",
-             
-            # Add more attributes here...
-        }
-    ),
-    required=False,  # Set to False if you want to make this field optional
-)
-    
+        label="Business",
+        widget=forms.CheckboxInput(
+            attrs={
+                "style": "transform: scale(1.25);",
+                "onchange": "uncheckCustomer()"
+                # Add more attributes here...
+            }
+        ),
+        required=False,  # Set to False if you want to make this field optional
+    )
+
     is_customer = forms.BooleanField(
-    label = "Customer",
-    widget=forms.CheckboxInput(
-        attrs={
-             "style": "transform: scale(1.25);",
-            # Add more attributes here...
-        }
-    ),
-    required=False,  # Set to False if you want to make this field optional
-)
+        label="Customer",
+        widget=forms.CheckboxInput(
+            attrs={
+                "style": "transform: scale(1.25);",
+                "onchange": "uncheckBusiness()"
+                # Add more attributes here...
+            }
+        ),
+        required=False,  # Set to False if you want to make this field optional
+    )
     
     phone_number = forms.IntegerField(
     widget=forms.NumberInput(
@@ -113,6 +114,7 @@ class SignUpForm(UserCreationForm):
             }
         )
     )
+
     
 
     class Meta:

@@ -38,7 +38,7 @@ def businessDashboard(request):
 def register(request):
     msg = None
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = SignUpForm(request.POST, label_suffix="")
         if form.is_valid():
             user = form.save()
             msg = 'user created'
@@ -46,7 +46,7 @@ def register(request):
         else:
             msg = 'form is not valid'
     else:
-        form = SignUpForm()
+        form = SignUpForm(label_suffix="")
     return render(request,'shopComponents/register.html', {'form': form, 'msg': msg})
 
 

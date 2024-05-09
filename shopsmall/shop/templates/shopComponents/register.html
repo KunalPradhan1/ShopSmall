@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
     <style>
         body{
-            background-color: #EDEBD7;
+            background-color: #eee;
         }
     </style>
 </head>
@@ -30,6 +30,26 @@
     </form>
     </div>
     {%endblock content%}
+    <script>
+        function uncheckBusiness() {
+            var isCustomer = document.getElementById("id_is_customer");
+            var isBusiness = document.getElementById("id_is_business");
+
+             if (isCustomer.checked) {
+                 isBusiness.checked = false;
+            }
+        }
+
+        function uncheckCustomer() {
+            var isCustomer = document.getElementById("id_is_customer");
+            var isBusiness = document.getElementById("id_is_business");
+
+             if (isBusiness.checked) {
+                 isCustomer.checked = false;
+            }
+
+        }
+    </script>
     
 </body>
 </html>
