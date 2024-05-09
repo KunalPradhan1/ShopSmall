@@ -24,12 +24,14 @@
         {% if searched %}
             <h1 style="text-align: center; color:aliceblue">You Searched For '{{searched}}'</h1>
 
-        {% else %}
-            <h1 style="text-align: center; color:aliceblue">No search was made</h1>
+        {% elif addedCart %}
+            <h1 style="text-align: center; color:aliceblue">Added '{{addedCart}}' to Cart</h1>
 
+        {%else %}
+            <h1 style = "text-align: center; color: aliceblue">No Search was made</h1>
         {% endif %}
 
-        {% if searched %}
+        {% if searched or addedCart %}
         <div class="row">
             {% for product in products %}
                 <div class="col-md-4">
@@ -86,7 +88,6 @@
                 data: form.serialize(),  // Serialize form data
                 success: function(response) {
                     alert('Product added to cart successfully!');
-                    // You can update the cart count or details on the page here
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     alert('Error adding product to cart. Please try again.');
