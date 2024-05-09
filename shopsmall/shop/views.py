@@ -124,7 +124,11 @@ def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
         products = Product.objects.filter(name__startswith=searched)
-        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products})
+        business = Business.objects.filter(businessName__startswith=searched)
+        search_type = request.POST.get('search_type')
+        if search_type is None:
+            search_type = "Both"
+        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products, 'business':business, 'search_type':search_type})
     else:
         return render(request, "shopComponents/search.html")
     
