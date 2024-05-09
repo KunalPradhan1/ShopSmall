@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.conf import settings
+from django.contrib.auth import get_user_model
+
 
 
 class User(AbstractUser): 
@@ -18,6 +20,7 @@ class Product(models.Model):
     businessID = models.IntegerField(null = True, default = 0)
     inventory = models.IntegerField(default = 0)
     last_updated = models.DateTimeField(default=timezone.now, null=True)    
+    businessName = models.CharField(max_length = 100, default = 'None')
     def __str__(self):
         return self.name
 
@@ -41,13 +44,30 @@ class BusinessImage(models.Model):
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, through='CartItem')
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='cart',
+        primary_key=True
+    )
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user
+        return f"{self.user.username}'s Cart - {'Completed' if self.completed else 'Active'}"
+
+
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    cart = models.ForeignKey(
+        Cart,
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
+    product = models.ForeignKey(
+        'Product',  # Assuming the Product model is in the same app and named Product
+        on_delete=models.CASCADE
+    )
     quantity = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} (in {self.cart.user.username}'s Cart)"
