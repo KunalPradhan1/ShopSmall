@@ -1,80 +1,41 @@
+
+
+
 {% load static %}
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Business Profile</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-
-    <style>
-        body{
-            background-color: #fff6eb;
-        }
-    </style>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Delete product</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body>
     
-  {%include 'shopComponents/navbar.html'%}
+
 <div class="formbold-main-wrapper">
+    <!-- Author: FormBold Team -->
+    <!-- Learn More: https://formbold.com -->
     <div class="formbold-form-wrapper">
-      <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Business Profile</h1>
-      <form action="" method="POST" enctype="multipart/form-data">
+      <form action="" method="POST" >
         {% csrf_token %}
+
         <div class="formbold-input-flex">
-            <div>
-                <label for="businessname" class="formbold-form-label">Business Name</label>
-                <input
-                    type="text"
-                    name="name"
-                    id="businessName"
-                    placeholder="Karan's Drugs"
-                    class="formbold-form-input"
-                    required
-                />
-            </div>
-        </div>
-    
-        <div class="formbold-input-flex">
-            <div>
-                <label for="address" class="formbold-form-label">Business Address</label>
-                <input
-                    type="text"
-                    name="address"
-                    id="address"
-                    placeholder="1 Washington Sq "
-                    class="formbold-form-input"
-                    required
-                />
-            </div>
-        </div>
-        <br>
-        <div>
-            <label for="businessImage" class="formbold-form-label">Product Image</label>
-            <input
-                type="file"
-                multiple
-                name="images"
-                id="businessImage"
+          <div>
+              <label for="firstname" class="formbold-form-label"> Old product name </label>
+              <input
+                  type="text"
+                  name="oldproduct"
+                  id="firstname"
+                  placeholder=" old product.name"
+                  class="formbold-form-input"
               />
-        </div>
-        <br>
-        <br>
-        <div>
-            <label for="message" class="formbold-form-label"> About Us </label>
-            <textarea
-                rows="6"
-                name="content"
-                id="message"
-                placeholder="Type your message"
-                class="formbold-form-input"
-            ></textarea>
-        </div>
+          </div>
+      </div>
     
         <button type="submit" class="formbold-btn">
-            Create Profile
+            Delete Product
         </button>
     </form>
     </div>
@@ -218,3 +179,7 @@
 
 </body>
 </html>
+
+
+
+
