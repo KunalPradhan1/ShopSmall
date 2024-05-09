@@ -18,21 +18,17 @@
               </li>
           {%endif%}
       {% endif %}
-      <form method=POST action="{% url 'search' %}">
+      <form id="search-form" method=POST action="{% url 'search' %}">
         {% csrf_token %}
         <input type="search" placeholder="Search..." name="searched">
-        <input type="radio" id="business" name="SearchForm" value="Business">Business
-        <input type="radio" id="products" name="SearchForm" value="Products"> Products
+        <input type="radio" id="business" name="search_type" value="Business">Business
+        <input type="radio" id="products" name="search_type" value="Products"> Products
         <button type="submit">Submit</button>
       </form>
       {% if user.is_authenticated%}
-        
         <li class="nav-item">
             <a class="nav-link" href="/cart">Cart</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/productAdd">Add Product</a>
-      </li>
         <li class="nav-item">
           <a class="nav-link" href="/logout">Logout</a>
         </li>
@@ -51,4 +47,19 @@
     </ul>
     
   </div>
+
+
+  <script>
+    document.getElementById('search-form').addEventListener('submit', function(event) {
+      // Get the value of the selected radio button
+      var selectedValue = document.querySelector('input[name="search_type"]:checked').value;
+      
+      // Set the value of the radio button as a hidden input field
+      var hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'search_type');
+      hiddenInput.setAttribute('value', selectedValue);
+      this.appendChild(hiddenInput);
+    });
+  </script>
 </nav>

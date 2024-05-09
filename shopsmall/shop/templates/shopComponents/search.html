@@ -1,109 +1,248 @@
 {% load static%}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
     <style>
-        body{
+        body {
             background-color: black;
             padding: 10px;
         }
+
+        .card {
+            height: 100%;
+        }
     </style>
 </head>
+
 <body>
     {% include 'shopComponents/navbar.html' %}
-    
 
-    {%block content %}
-        {% if searched %}
-            <h1 style="text-align: center; color:aliceblue">You Searched For '{{searched}}'</h1>
 
-        {% elif addedCart %}
-            <h1 style="text-align: center; color:aliceblue">Added '{{addedCart}}' to Cart</h1>
+{% block content %}
+    <p style="text-align: center; color:aliceblue"> Search Type: {{ search_type }}</p>
 
-        {%else %}
-            <h1 style = "text-align: center; color: aliceblue">No Search was made</h1>
-        {% endif %}
+    {% if searched %}
+    <h1 style="text-align: center; color: aliceblue">You Searched For '{{ searched }}'</h1>
+    {% elif addedCart %}
+        <h1 style="text-align: center; color: aliceblue">Added '{{ addedCart }}' to Cart</h1>
+    {% else %}
+        <h1 style="text-align: center; color: aliceblue">No Search was made</h1>
+    {% endif %}
 
-        {% if searched or addedCart %}
+    {% if searched %}
+        {% if search_type == "Business" %}
         <div class="row">
-            {% for product in products %}
-                <div class="col-md-4">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h1 style="text-align: center;">{{product.businessName}}</h1>
-                            <div class="img-wrapper" style="height: 400px; width: 400px; overflow: hidden;">
-                                <img src="{{ product.image.url }}" class="card-img-top" style="object-fit: cover; width: 100%; height: 100%;" alt="{{ product.name }}">
-                            </div>
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <p class="card-text">Price: ${{ product.price }}</p>
-                            <div class="d-flex">
-                                <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="product_id" value="{{ product.id }}">
-                                    <label for="quantity">Quantity:</label>
-                                    <input type="number" name="quantity" id="quantity" min="1" value="1" required>
-                                    <button type="submit">Add to Cart</button>
-                                </form>                            
-                                <form method="GET" action="{% url 'business-profile' %}">
-                                   
-                                    <input type="hidden" name="business_id" value="{{ product.businessID }}">
-                                    <button type="submit" class="btn btn-primary">Business Profile</button>
-                                </form>
-                                <form method="GET" action="{% url 'business-products' %}">
-                                    
-                                    <input type="hidden" name="business_id" value="{{ product.businessID }}">
-                                    <button type="submit" class="btn btn-primary">Products</button>
-                                </form>                    
-                            </div>
-                                  
-                         </div>
+            {% for bus in business %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="img-wrapper" style="height: 200px; overflow: hidden;">
+                            <img src="{{ bus.images.url }}" class="card-img-top"
+                                style="object-fit: cover; width: 100%; height: 100%;" alt="{{ bus.businessName }}">
+                        </div>
+                        <h5 class="card-title">{{ bus.businessName }}</h5>
+                        <p class="card-text">{{ bus.about }}</p>
+                        <div class="d-flex">
+                            <form method="GET" action="{% url 'business-profile' %}">
+
+                                <input type="hidden" name="business_id" value="{{ bus.businessID }}">
+                                <button type="submit" class="btn btn-primary">Business Profile</button>
+                            </form>
+                            <form method="GET" action="{% url 'business-products' %}">
+
+                                <input type="hidden" name="business_id" value="{{ bus.businessID }}">
+                                <button type="submit" class="btn btn-primary">Products</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            {% endfor %}
+            </div>
+        {% endfor %}
+
         </div>
+        {% elif search_type == "Products" %}
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="img-wrapper" style="height: 200px; overflow: hidden;">
+                            <img src="{{ product.image.url }}" class="card-img-top"
+                                style="object-fit: cover; width: 100%; height: 100%;" alt="{{ product.name }}">
+                        </div>
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">Price: ${{ product.price }}</p>
+                        <div class="d-flex">
+                            <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                            <form method="GET" action="{% url 'business-profile' %}">
+
+                                <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                <button type="submit" class="btn btn-primary">Business Profile</button>
+                            </form>
+                            <form method="GET" action="{% url 'business-products' %}">
+
+                                <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                <button type="submit" class="btn btn-primary">Products</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% else %}
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="img-wrapper" style="height: 200px; overflow: hidden;">
+                            <img src="{{ product.image.url }}" class="card-img-top"
+                                style="object-fit: cover; width: 100%; height: 100%;" alt="{{ product.name }}">
+                        </div>
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">Price: ${{ product.price }}</p>
+                        <div class="d-flex">
+                            <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+                                <button type="submit">Add to Cart</button>
+                            </form>
+                            <form method="GET" action="{% url 'business-profile' %}">
+
+                                <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                <button type="submit" class="btn btn-primary">Business Profile</button>
+                            </form>
+                            <form method="GET" action="{% url 'business-products' %}">
+
+                                <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                <button type="submit" class="btn btn-primary">Products</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% for bus in business %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="img-wrapper" style="height: 200px; overflow: hidden;">
+                            <img src="{{ bus.images.url }}" class="card-img-top"
+                                style="object-fit: cover; width: 100%; height: 100%;" alt="{{ bus.businessName }}">
+                        </div>
+                        <h5 class="card-title">{{ bus.businessName }}</h5>
+                        <p class="card-text">{{ bus.about }}</p>
+                        <div class="d-flex">
+                            <form method="GET" action="{% url 'business-profile' %}">
+
+                                <input type="hidden" name="business_id" value="{{ bus.businessID }}">
+                                <button type="submit" class="btn btn-primary">Business Profile</button>
+                            </form>
+                            <form method="GET" action="{% url 'business-products' %}">
+
+                                <input type="hidden" name="business_id" value="{{ bus.businessID }}">
+                                <button type="submit" class="btn btn-primary">Products</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h1 style="text-align: center;">{{product.businessName}}</h1>
+                                <div class="img-wrapper" style="height: 400px; width: 400px; overflow: hidden;">
+                                    <img src="{{ product.image.url }}" class="card-img-top" style="object-fit: cover; width: 100%; height: 100%;" alt="{{ product.name }}">
+                                </div>
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <p class="card-text">{{ product.description }}</p>
+                                <p class="card-text">Price: ${{ product.price }}</p>
+                                <div class="d-flex">
+                                    <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                                        <label for="quantity">Quantity:</label>
+                                        <input type="number" name="quantity" id="quantity" min="1" value="1" required>
+                                        <button type="submit">Add to Cart</button>
+                                    </form>                            
+                                    <form method="GET" action="{% url 'business-profile' %}">
+                                    
+                                        <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                        <button type="submit" class="btn btn-primary">Business Profile</button>
+                                    </form>
+                                    <form method="GET" action="{% url 'business-products' %}">
+                                        
+                                        <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                        <button type="submit" class="btn btn-primary">Products</button>
+                                    </form>                    
+                                </div>
+                                    
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
-
-
-    {%endblock content %}
+    {% endif %}
+{% endblock content %}
 
     <hr>
 
     <script>
-        $('#add-to-cart-form').submit(function(e) {
+        $('#add-to-cart-form').submit(function (e) {
             e.preventDefault();  // Prevent form from submitting normally
             var form = $(this);
             var url = form.attr('action');
-            
+
             $.ajax({
                 type: "POST",
                 url: url,
                 data: form.serialize(),  // Serialize form data
-                success: function(response) {
+                success: function (response) {
                     alert('Product added to cart successfully!');
                 },
-                error: function(xhr, textStatus, errorThrown) {
+                error: function (xhr, textStatus, errorThrown) {
                     alert('Error adding product to cart. Please try again.');
                 }
             });
         });
-        </script>
-
-   
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script> -->
-   
+    </script>
 
 
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 </body>
+
 </html>

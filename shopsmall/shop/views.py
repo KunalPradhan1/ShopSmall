@@ -4,6 +4,7 @@ from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from .forms import SignUpForm, LoginForm
+from .models import User, Product
 from .models import User, Product, Business, BusinessImage, Cart, CartItem
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, JsonResponse
@@ -35,8 +36,6 @@ def businessDashboard(request):
         return render(request, "shopComponents/businessDashboard.html", context)
     else:
         return redirect("login")
-
-
 
 
 def register(request):
@@ -87,6 +86,14 @@ def logout(request):
 def business(request):
     return render(request, "shopComponents/business.html")
 
+# def cart(request):
+#     return render(request, "members/cart.html")
+
+# def search(request):
+#     search_term = request.GET.get('search', '')
+#     search_form = request.GET.get('SearchForm', '')
+#     return render(request, "members/search.html",{ 'search_term': search_term, 'search_form': search_form }) 
+
 
 @login_required(login_url = "login")
 def view_profile(request):
@@ -119,14 +126,19 @@ def view_products(request):
     return render(request, 'customer/viewProducts.html',context)
     
 
-
+@login_required(login_url = "login")
 def search(request):
     if request.method == "POST":
         searched = request.POST['searched']
         products = Product.objects.filter(name__startswith=searched)
-        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products})
+        business = Business.objects.filter(businessName__startswith=searched)
+        search_type = request.POST.get('search_type')
+        if search_type is None:
+            search_type = "Both"
+        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products, 'business':business, 'search_type':search_type})
     else:
         return render(request, "shopComponents/search.html")
+    
     
 @login_required(login_url = "login")
 def businessProfileEdit(request):
@@ -181,9 +193,6 @@ def businessProfile(request):
 
 @login_required(login_url = "login")
 def createProduct(request):
-    if not getattr(request.user, 'is_business', False):
-        return redirect("login")
-
     if request.method == 'POST':
         name1 = request.POST['name']
         price1 = request.POST['price']
@@ -200,9 +209,83 @@ def createProduct(request):
         context = {
         'title': 'product',
         'products': user_products
-        }
+         }
         return render(request, "shopComponents/businessDashboard.html", context)
+
+
+    
     return render(request, "shop/createproduct.html")
+
+
+
+
+@login_required(login_url = "login")
+def changeproduct(request):
+    if request.method == 'POST':
+        oldobj = request.POST['oldproduct']
+        name1 = request.POST['name']
+        price1 = request.POST['price']
+        content1 = request.POST['content']
+        inventory = request.POST['inventory']
+        date = timezone.now()
+
+        product = None
+        try:
+            product = Product.objects.get(name = oldobj, businessID = request.user.id)
+        except Product.DoesNotExist:
+            product = None
+            raise Http404("No product matches the given query.")
+
+        
+        if product is not None:
+            if name1 != '':
+                product.name = name1
+
+            if price1 != '':
+                product.price = price1
+            
+            if content1 != '':
+                product.description = content1
+
+            if inventory != '':
+                product.inventory = inventory
+            
+            product.last_updated = date
+            product.save()
+
+        user_products = Product.objects.filter(businessID = request.user.id)
+        context = {
+        'title': 'product',
+        'products': user_products
+         }
+        return render(request, "shopComponents/businessDashboard.html", context)
+    return render(request, "shop/product.html")
+
+
+@login_required(login_url = "login")
+def delete(request):
+    if request.method == 'POST':
+        oldobj = request.POST['oldproduct']
+
+        product = None
+        try:
+            product = Product.objects.get(name = oldobj, businessID = request.user.id)
+        except Product.DoesNotExist:
+            product = None
+            raise Http404("No product matches the given query.")
+
+        
+
+        product.delete()
+
+        user_products = Product.objects.filter(businessID = request.user.id)
+        context = {
+        'title': 'product',
+        'products': user_products
+         }
+        return render(request, "shopComponents/businessDashboard.html", context)
+    return render(request, "shop/deleteproduct.html")
+
 
 
 @login_required(login_url = "login")

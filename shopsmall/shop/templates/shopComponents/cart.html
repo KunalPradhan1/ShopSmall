@@ -47,11 +47,8 @@
                     </ul>
                     
                 </div>
-                <form id="checkout" method="POST" action="{% url 'add_to_cart' cart.id %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="order_num" value="{{ cart.id }}">
-                    <button class="btn btn-primary btn-block mt-3">Checkout</button>
-                </form>  
+                <button class="btn btn-primary btn-block mt-3">Checkout</button>
+               
             </div>
         </div>
     </div>

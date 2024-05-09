@@ -1,3 +1,6 @@
+
+
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -5,7 +8,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Delete product</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body>
@@ -15,66 +18,24 @@
     <!-- Author: FormBold Team -->
     <!-- Learn More: https://formbold.com -->
     <div class="formbold-form-wrapper">
-      <form action="" method="POST" enctype="multipart/form-data">
+      <form action="" method="POST" >
         {% csrf_token %}
+
         <div class="formbold-input-flex">
-            <div>
-                <label for="firstname" class="formbold-form-label"> Product Name</label>
-                <input
-                    type="text"
-                    name="name"
-                    id="firstname"
-                    placeholder="Car"
-                    class="formbold-form-input"
-                />
-            </div>
-        </div>
-    
-        <div class="formbold-input-flex">
-            <div>
-                <label for="email" class="formbold-form-label"> Price </label>
-                <input
-                    type="text"
-                    name="price"
-                    id="email"
-                    placeholder="$100"
-                    class="formbold-form-input"
-                />
-            </div>
-            <div>
-                <label for="inventory" class="formbold-form-label">Inventory Count</label>
-                <input
-                    type="text"
-                    name="inventory"
-                    id="inventory"
-                    placeholder="0"
-                    class="formbold-form-input"
-                />
-            </div>
-        </div>
-    
-        <div>
-            <label for="productImage" class="formbold-form-label">Product Image</label>
-            <input
-                type="file"
-                name="image"
-                id="productImage"
+          <div>
+              <label for="firstname" class="formbold-form-label"> Old product name </label>
+              <input
+                  type="text"
+                  name="oldproduct"
+                  id="firstname"
+                  placeholder=" old product.name"
+                  class="formbold-form-input"
               />
-        </div>
-    
-        <div>
-            <label for="message" class="formbold-form-label"> Content </label>
-            <textarea
-                rows="6"
-                name="content"
-                id="message"
-                placeholder="Type your message"
-                class="formbold-form-input"
-            ></textarea>
-        </div>
+          </div>
+      </div>
     
         <button type="submit" class="formbold-btn">
-            Add Product
+            Delete Product
         </button>
     </form>
     </div>
@@ -218,3 +179,7 @@
 
 </body>
 </html>
+
+
+
+
