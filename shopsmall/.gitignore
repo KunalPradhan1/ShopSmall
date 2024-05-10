@@ -2,9 +2,6 @@ __pycache__/
 *.pyc
 *.img
 *.jpg
+*.png
 #SQLite database file
-<<<<<<< HEAD
 db.sqlite3
-=======
-db.sqlite3
->>>>>>> 4abd02c0228e039a0ba423e31717eb073498e697

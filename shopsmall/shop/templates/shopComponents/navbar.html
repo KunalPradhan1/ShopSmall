@@ -1,10 +1,19 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">ShopSmall</a>
+<nav class="navbar navbar-expand-lg" style="background: rgb(158 0 255 / 60%)">
+  <a class="navbar-brand" href="/" style="font-family: Brush Script MT;font-size: 50px;  background-image: linear-gradient(to right,
+ #462523 0,
+ #cb9b51 22%, 
+ #f6e27a 45%,
+ #f6f2c0 50%,
+ #f6e27a 55%,
+ #cb9b51 78%,
+ #462523 100%
+ );color:transparent;background-clip:text;
+">ShopSmall</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" >
     <ul class="navbar-nav mr-auto">
       {% if user.is_authenticated%}
           {% if user.is_business %}
