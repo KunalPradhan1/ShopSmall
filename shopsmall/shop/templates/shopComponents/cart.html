@@ -47,8 +47,15 @@
                     </ul>
                     
                 </div>
-                <button class="btn btn-primary btn-block mt-3">Checkout</button>
-               
+                {% if cart %}
+                <form id="order-submit-form" method="POST" action="{% url 'order_submit' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="order_id">
+                    <button type="submit">Checkout</button>
+                </form>
+                {% else %}
+                    <p>You do not have any items in your cart.</p>
+                {% endif %}
             </div>
         </div>
     </div>

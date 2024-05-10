@@ -53,7 +53,22 @@
     {% load static %}
     <div class="container">
         <div class="row justify-content-center">
-           
+           {%block content %}
+           <h2>Your Order Was Successfully Placed!</h2>
+           <h5>Ordered Time: {{order.order_placed}}</h5>
+           <h5>Items:</h5>
+           <table>
+            {% for item in items %}
+               <tr>
+                <td>{{item.product.name}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.product.price}}</td>
+               </tr>
+                
+            {%endfor%}
+           </table>
+            
+           {%endblock%}
 
         </div>
     </div>

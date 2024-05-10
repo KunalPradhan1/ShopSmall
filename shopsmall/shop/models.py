@@ -16,7 +16,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='images/', default = 'images\Balkarandeep_Singh_-_String_project.jpg', null = True, blank = True)
+    image = models.ImageField(upload_to='images/', default = 'images/Balkarandeep_Singh_-_String_project.jpg', null = True, blank = True)
     businessID = models.IntegerField(null = True, default = 0)
     inventory = models.IntegerField(default = 0)
     last_updated = models.DateTimeField(default=timezone.now, null=True)    
@@ -39,18 +39,18 @@ class Business(models.Model):
 
 class BusinessImage(models.Model):
     business_profile = models.ForeignKey(Business, related_name='images', on_delete=models.CASCADE)
-    images = models.ImageField(null = True, blank = True, upload_to='images/', default = 'images\Balkarandeep_Singh_-_String_project.jpg')
+    images = models.ImageField(null = True, blank = True, upload_to='images/', default = 'images/Balkarandeep_Singh_-_String_project.jpg')
     businessID = models.IntegerField(null = True, default = 0)
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='cart',
-        primary_key=True
     )
     completed = models.BooleanField(default=False)
+   
 
     def __str__(self):
         return f"{self.user.username}'s Cart - {'Completed' if self.completed else 'Active'}"
@@ -72,12 +72,15 @@ class CartItem(models.Model):
     def __str__(self):
         return f"{self.quantity} x {self.product.name} (in {self.cart.user.username}'s Cart)"
 
-class Orders: 
+class Orders(models.Model): 
     order = models.ForeignKey(
-        Business, 
+        Cart, 
         on_delete = models.CASCADE, 
-        related_name = 'business_orders'
+        related_name = 'order_made'
     )
     order_placed = models.DateTimeField(default=timezone.now, null=True)  
-    cost = models.DecimalField(default = 0.00)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    completed = models.BooleanField(default = False)
+    customerID = models.IntegerField(null = True, default = 0)
+
 
