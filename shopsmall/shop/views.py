@@ -309,10 +309,8 @@ def orderSubmit(request):
 
                     cart.completed = True; 
                     cart.save()
-                    # cart_items.delete()  
-                    # cart.delete()  
-
-                    context['order'] = customerOrder  # Add the order to the context within the atomic block
+                    context['order'] = customerOrder 
+                    context['items'] = cart_items
                     
                 return render(request, "shopComponents/orderPlaced.html", context=context)
             except Exception as e:
@@ -322,6 +320,8 @@ def orderSubmit(request):
             return HttpResponse("No items in the cart to create an order.", status=400)
     else: 
         return render(request, "shopComponents/login.html")
+
+
 @login_required(login_url = "login")
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
