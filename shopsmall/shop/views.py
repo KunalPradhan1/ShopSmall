@@ -288,7 +288,7 @@ def delete(request):
 
 
 
-@login_required
+@login_required(login_url = "login")
 def add_to_cart(request, product_id):
     print("View called")
     product = get_object_or_404(Product, id=product_id)
@@ -310,7 +310,8 @@ def add_to_cart(request, product_id):
     cart_item.save()
     print("Cart item saved")
     
-    return JsonResponse({'status': 'success', 'message': 'Product added to cart successfully'})
+    products = Product.objects.filter(name__startswith=product.name)
+    return render(request, "shopComponents/search.html", {'addedCart': product.name, 'products':products})
 
 
 def cart(request):
