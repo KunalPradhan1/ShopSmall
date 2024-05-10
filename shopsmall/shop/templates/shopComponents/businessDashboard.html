@@ -34,7 +34,7 @@
         }
 
         .button {
-            background-color: #044faa; /* Green */
+            background-color: rgb(158 0 255 / 60%); /* Green */
             border: none;
             color: white;
             padding: 15px 32px;
@@ -51,6 +51,8 @@
 
     {% include 'shopComponents/navbar.html' %}
     {% load static %}
+    <br>
+    <br>
     <div class="container">
         <div class="row justify-content-center">
             <a href="{% url 'add'%}" class="button">Create a Product</a>
