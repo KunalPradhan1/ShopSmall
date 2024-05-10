@@ -5,10 +5,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from .forms import SignUpForm, LoginForm
 from .models import User, Product
-from .models import User, Product, Business, BusinessImage, Cart, CartItem
+from .models import User, Product, Business, BusinessImage, Cart, CartItem, Orders
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
+from django.db import transaction
 
 
 
@@ -281,24 +282,61 @@ def delete(request):
         user_products = Product.objects.filter(businessID = request.user.id)
         context = {
         'title': 'product',
-        'products': user_products
+        'products': user_products 
          }
         return render(request, "shopComponents/businessDashboard.html", context)
     return render(request, "shop/deleteproduct.html")
 
 
+login_required(login_url="login")   
+def orderSubmit(request):
+    if getattr(request.user, 'is_customer', False):
+        cart = get_object_or_404(Cart, user=request.user, completed = False)  # Assuming you need to match cart ID to order_id
+        cart_items = CartItem.objects.filter(cart=cart)
+        if cart_items.exists(): 
+            total = sum(item.product.price * item.quantity for item in cart_items)
+            context = {'cost': total}  # Define context outside to ensure availability
+            try:
+                with transaction.atomic():
+                    customerOrder, created = Orders.objects.get_or_create(
+                        order=cart, 
+                        defaults={'cost': total, 'completed': False, 'customerID': request.user.id}
+                    )
+                    
+                    if created or not customerOrder.order_placed:
+                        customerOrder.order_placed = timezone.now()
+                        customerOrder.save()
 
+                    cart.completed = True; 
+                    cart.save()
+                    # cart_items.delete()  
+                    # cart.delete()  
+
+                    context['order'] = customerOrder  # Add the order to the context within the atomic block
+                    
+                return render(request, "shopComponents/orderPlaced.html", context=context)
+            except Exception as e:
+                print(f"Failed to save order: {e}")
+                return HttpResponse("Failed to process your order.", status=500)
+        else: 
+            return HttpResponse("No items in the cart to create an order.", status=400)
+    else: 
+        return render(request, "shopComponents/login.html")
 @login_required(login_url = "login")
 def add_to_cart(request, product_id):
-    print("View called")
     product = get_object_or_404(Product, id=product_id)
-    print("Product retrieved:", product)
     quantity = int(request.POST.get('quantity', 1))
-    print("Quantity:", quantity)
 
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    print("Cart retrieved or created:", cart)
+    cart, created = Cart.objects.get_or_create(user=request.user, completed=False)
 
+    if not created:
+        # If the cart exists and is not completed, use it
+        print("Using existing active cart:", cart)
+    else:
+       
+        print("New cart created:", cart)
+    
+    
     cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
     print("Cart item retrieved or created:", cart_item)
 
@@ -317,11 +355,14 @@ def add_to_cart(request, product_id):
 def cart(request):
     user = request.user
     if user.is_authenticated:
-        cart, created = Cart.objects.get_or_create(user=user, completed=False)  # Get or create an active cart
+        cart, created = Cart.objects.get_or_create(user=request.user, completed=False) 
         items = cart.items.all()  # Assuming the related_name for CartItem is 'items'
         total = sum(item.product.price * item.quantity for item in items)  # Calculate total price
         return render(request, 'shopComponents/cart.html', {'cart': cart, 'items': items, 'total': total})
     else:
         # Redirect or handle unauthenticated users
         return render(request, 'shopComponents/login.html')
+
+
+
     
