@@ -24,8 +24,12 @@ def home(request):
 @login_required(login_url = "login")
 def customerDashboard(request):
     if getattr(request.user, 'is_customer', False):
-        print(request.user.is_customer)
-        return render(request, "shopComponents/customerDash.html")
+        customer_orders = Orders.objects.filter(customerID = request.user.id)
+        context = {
+            'title': 'Orders', 
+            'orders': customer_orders
+        }
+        return render(request, "shopComponents/customerDash.html", context = context)
     else:
         return redirect("login")
 
@@ -209,7 +213,7 @@ def createProduct(request):
         findBusiness = Business.objects.filter(businessID = request.user.id)
         for business in findBusiness: 
             busName = business.businessName
-        product = Product(name = name1, price = price1, description = content1, inventory = inventory, last_updated = date, image = image, businessID = request.user.id, businessName = busName)
+        product = Product(name = name1, price = price1, description = content1, inventory = inventory, last_updated = date, image = image, businessID = request.user.id, businessName = busName, email = email)
         product.save()
         user_products = Product.objects.filter(businessID = request.user.id)
         context = {
@@ -300,6 +304,7 @@ def orderSubmit(request):
         cart_items = CartItem.objects.filter(cart=cart)
         for items in cart_items: 
             print(items.cart.user.email)
+            businessName = items.product.businessName
         if cart_items.exists(): 
             total = sum(item.product.price * item.quantity for item in cart_items)
             context = {'cost': total}  # Define context outside to ensure availability
@@ -307,19 +312,20 @@ def orderSubmit(request):
                 with transaction.atomic():
                     customerOrder, created = Orders.objects.get_or_create(
                         order=cart, 
-                        defaults={'cost': total, 'completed': False, 'customerID': request.user.id}
+                        defaults={'cost': total, 'completed': "In Progress", 'customerID': request.user.id, 'businessName': businessName}
                     )
                     
                     if created or not customerOrder.order_placed:
                         customerOrder.order_placed = timezone.now()
                         customerOrder.save()
                         # email sent to customer
-                        welcome_message = "Thank you so much for shopping at ShopSmall today " + str(request.user.first_name) + " " + str(request.user.last_name) +  " and choosing to give your business to small businesses! Hundreds of thousands of small businesses all over the country close down due to competition and the struggles of maintaining a business and your business is truly beneficial to everyone!"
-                        subject = "Your Order Has Been Placed!"
+                        welcome_message = "Thank you so much for shopping at ShopSmall today " + str(request.user.first_name) + " " + str(request.user.last_name) +  " and choosing to give your business to small businesses! Hundreds of thousands of small businesses all over the country close down due to competition and the struggles of maintaining a business and your business is truly beneficial to everyone! The total for your order is: $" + str(total) + ". You can view your orders within your customer dashboard. Thank you again for your business you will be contacted when your orders are ready. "
+                                            
+                        subject = "ShopSmall Order Has Been Placed!"
                         email = request.user.email
 
                         context = {
-                            welcome_message: welcome_message
+                            'welcome_message': welcome_message
                         }
                         html_message = render_to_string("shopComponents/email.html", context = context)
                         plain_message = strip_tags(html_message)
@@ -332,19 +338,23 @@ def orderSubmit(request):
                         message.attach_alternative(html_message, "text/html")
                         message.send()
 
-                        # for items in cart_items: 
-                        #     businessEmail = items.product.email
-                            
-                        #     send_mail(
-                        #         "You have a new order!", 
-                        #         f"Customer email: {request.user.email} Customer Phone Number: {request.user.phone_number} 
-                        #         Ordered: {items.product.name} Quantity: {items.quantity}", 
-                        #         "shopsmallbiz12@gmail.com", 
-                        #         ""
-                                   
-                                
-                        #     )
-
+                        business_message = "You have an order! Customer: " + str(request.user.first_name) + " " + str(request.user.last_name) + ". Phone number: " + str(request.user.phone_number) + ". Contact customer when order is placed. Information about order showed in your Business Dashboard"
+                        subject = "You Have an Order!"
+                        context = {
+                            welcome_message: business_message
+                        }
+                        html_message = render_to_string("shopComponents/email.html", context = context)
+                        plain_message = strip_tags(html_message)
+                        for items in cart_items: 
+                            print(items.product.email)
+                            message = EmailMultiAlternatives(
+                            subject = subject, 
+                            body = plain_message,
+                            from_email = "shopsmallbiz12@gmail.com", 
+                            to = [items.product.email]
+                            )  
+                            message.attach_alternative(html_message, "text/html")
+                            message.send()
 
                     cart.completed = True; 
                     cart.save()

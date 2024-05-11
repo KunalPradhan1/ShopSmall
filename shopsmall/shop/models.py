@@ -81,7 +81,8 @@ class Orders(models.Model):
     )
     order_placed = models.DateTimeField(default=timezone.now, null=True)  
     cost = models.DecimalField(max_digits=10, decimal_places=2)
-    completed = models.BooleanField(default = False)
+    completed = models.CharField(max_length = 100, default = "None")
     customerID = models.IntegerField(null = True, default = 0)
+    businessName = models.CharField(max_length = 100, default = 'None')
 
 

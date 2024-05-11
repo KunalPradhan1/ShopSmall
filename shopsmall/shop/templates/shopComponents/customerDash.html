@@ -51,11 +51,18 @@
 
     {% include 'shopComponents/navbar.html' %}
     {% load static %}
-    <div class="container">
-        <div class="row justify-content-center">
-           
+    <div class="col-md-8 products-container">
+        <h1 class="text-center">Your Orders & Status</h1>
 
-        </div>
+        {% for order in orders %}
+            <div class="product-item">
+                <h2 class="product-title"><b>Date: </b>{{ order.order_placed }}</h2>
+                <span class="product-price"><b>Price: </b> ${{ order.cost }}</span>
+                <p><small class="text-muted"><b>Business Ordered From: </b>{{ order.businessName}}</small></p>
+                <p><small class="text-muted"><b>Status: </b>{{ order.completed}}  </small></p>
+                
+            </div>
+        {% endfor %}
     </div>
 </body>
 </html>
