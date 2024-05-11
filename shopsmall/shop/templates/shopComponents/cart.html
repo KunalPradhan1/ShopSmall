@@ -27,8 +27,7 @@
                             <p class="card-text text-muted">{{ item.product.description }}</p>
                             <p class="card-text">Unit Price: ${{ item.product.price }}</p>
                             <p class="card-text">Quantity: {{ item.quantity }}</p>
-                            <button class="btn btn-danger" data-item-id="{{ item.id }}">Remove</button>
-                        </div>
+                            <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger">Remove</a>                        </div>
                     </div>
                 </div>
             </div>

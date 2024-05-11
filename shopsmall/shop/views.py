@@ -14,6 +14,8 @@ from django.core.mail import EmailMultiAlternatives, send_mail
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
 from decimal import Decimal
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 
@@ -427,4 +429,9 @@ def cart(request):
 
 
 
+
+def remove_from_cart(request, item_id):
+    item = CartItem.objects.get(id=item_id, cart__user=request.user)
+    item.delete()
+    return redirect('cart')
     
