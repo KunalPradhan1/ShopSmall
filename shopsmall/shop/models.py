@@ -11,6 +11,7 @@ class User(AbstractUser):
     is_customer = models.BooleanField('Customer', default = False)
     phone_number = models.IntegerField(default = 0)
     location = models.CharField(max_length = 45, default = 'Not provided')
+    reward_points = models.IntegerField(default=0)
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
