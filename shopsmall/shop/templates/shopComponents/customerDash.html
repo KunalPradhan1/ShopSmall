@@ -43,6 +43,28 @@
             display: inline-block;
             font-size: 16px;
         }
+      
+  /* Styles for the progress bar */
+  .progress {
+    width: 100%;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 0;
+    height: 30px;
+    background-color: rgb(158 0 255 / 60%); /* Green */
+    text-align: center;
+    line-height: 30px;
+    color: white;
+    transition: width 0.5s ease-in-out;
+  }
+
 
         
     </style>
@@ -51,19 +73,58 @@
 
     {% include 'shopComponents/navbar.html' %}
     {% load static %}
-    <div class="col-md-8 products-container">
-        <h1 class="text-center">Your Orders & Status</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 products-container mx-auto">
+                <h1 class="text-center">Reward Points</h1>
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                   
+                    </div>
+                  </div>
 
-        {% for order in orders %}
-            <div class="product-item">
-                <h2 class="product-title"><b>Date: </b>{{ order.order_placed }}</h2>
-                <span class="product-price"><b>Price: </b> ${{ order.cost }}</span>
-                <p><small class="text-muted"><b>Business Ordered From: </b>{{ order.businessName}}</small></p>
-                <p><small class="text-muted"><b>Status: </b>{{ order.completed}}  </small></p>
-                
+                  <div class="text-center"> <!-- Add this div with the "text-center" class -->
+                    <p><small class="text-muted"><b>Reward Points: </b>{{ user.reward_points }} = $<span id="convertedPoints"></span></small></p>
+                </div>           
+        </div>
+        <div class="row">
+            <div class="col-md-8 products-container mx-auto">
+                <h1 class="text-center">Your Orders & Status</h1>
+
+                {% for order in orders %}
+                    <div class="product-item">
+                        <h2 class="product-title"><b>Date: </b>{{ order.order_placed }}</h2>
+                        <span class="product-price"><b>Price: </b> ${{ order.cost }}</span>
+                        <p><small class="text-muted"><b>Business Ordered From: </b>{{ order.businessName}}</small></p>
+                        <p><small class="text-muted"><b>Status: </b>{{ order.completed}}  </small></p>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-        <p><small class="text-muted"><b>Reward Points: </b>{{ user.reward_points }}</small></p>
+        </div>
+        
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var progressBar = document.querySelector('#progressBar');
+            var rewardPoints = {{ user.reward_points }}; // Assuming you have passed the user's reward points to the template
+    
+            // Calculate the percentage of reward points (assuming the maximum is 500)
+            var percentage = rewardPoints / 100 * 100;
+    
+            // Update the aria-valuenow attribute and the width of the progress bar
+            progressBar.setAttribute('aria-valuenow', percentage);
+            progressBar.style.width = percentage + '%';
+    
+            // Update the text inside the progress bar
+            //progressBar.textContent = percentage + '%';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+        var rewardPoints = {{ user.reward_points }};
+        var convertedPoints = rewardPoints * 0.1;
+        document.querySelector('#convertedPoints').textContent = convertedPoints.toFixed(2);
+    });
+    </script>
+      
 </body>
 </html>
