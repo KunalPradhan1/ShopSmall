@@ -109,7 +109,7 @@
             var rewardPoints = {{ user.reward_points }}; // Assuming you have passed the user's reward points to the template
     
             // Calculate the percentage of reward points (assuming the maximum is 500)
-            var percentage = rewardPoints / 100 * 100;
+            var percentage = rewardPoints / 1000 * 100;
     
             // Update the aria-valuenow attribute and the width of the progress bar
             progressBar.setAttribute('aria-valuenow', percentage);
@@ -121,7 +121,7 @@
 
         document.addEventListener('DOMContentLoaded', function() {
         var rewardPoints = {{ user.reward_points }};
-        var convertedPoints = rewardPoints * 0.1;
+        var convertedPoints = rewardPoints * .1;
         document.querySelector('#convertedPoints').textContent = convertedPoints.toFixed(2);
     });
     </script>

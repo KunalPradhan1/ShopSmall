@@ -13,8 +13,8 @@
 
     <style>
         body {
-            background-color: black;
-            padding: 10px;
+            background-color: #EEEEEE;
+            /* padding: 10px; */
         }
 
         .card {
@@ -28,14 +28,14 @@
 
 
 {% block content %}
-    <p style="text-align: center; color:aliceblue"> Search Type: {{ search_type }}</p>
+    <p style="text-align: center; color:black"> Search Type: {{ search_type }}</p>
 
     {% if searched %}
-    <h1 style="text-align: center; color: aliceblue">You Searched For '{{ searched }}'</h1>
+    <h1 style="text-align: center; color: black">You Searched For '{{ searched }}'</h1>
     {% elif addedCart %}
-        <h1 style="text-align: center; color: aliceblue">Added '{{ addedCart }}' to Cart</h1>
+        <h1 style="text-align: center; color: black">Added '{{ addedCart }}' to Cart</h1>
     {% else %}
-        <h1 style="text-align: center; color: aliceblue">No Search was made</h1>
+        <h1 style="text-align: center; color: black">No Search was made</h1>
     {% endif %}
 
     {% if searched %}
@@ -75,30 +75,32 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
+                        <h3 class="card-title" style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">{{ product.name }}</h3>
                         <div class="img-wrapper" style="height: 200px; overflow: hidden;">
                             <img src="{{ product.image.url }}" class="card-img-top"
                                 style="object-fit: cover; width: 100%; height: 100%;" alt="{{ product.name }}">
                         </div>
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">{{ product.description }}</p>
-                        <p class="card-text">Price: ${{ product.price }}</p>
+                        <h3 class="card-title" style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">From: {{ product.businessName }}</h3>
+
+                        <p class="card-text" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">{{ product.description }}</p>
+                        <p class="card-text" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Price: ${{ product.price }}</p>
                         <div class="d-flex">
-                            <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}">
+                            <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}" >
                                 {% csrf_token %}
                                 <input type="hidden" name="product_id" value="{{ product.id }}">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" name="quantity" id="quantity" min="1" value="1" required>
-                                <button type="submit">Add to Cart</button>
+                                <label for="quantity" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" min="1" value="1" required style="width: 150px; margin-bottom: 5px; margin-top: 5px;">
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
                             </form>
-                            <form method="GET" action="{% url 'business-profile' %}">
+                            <form method="GET" action="{% url 'business-profile' %}" style="padding: 10px;">
 
                                 <input type="hidden" name="business_id" value="{{ product.businessID }}">
-                                <button type="submit" class="btn btn-primary">Business Profile</button>
+                                <button type="submit" class="btn btn-primary" style="padding: 10px;">Business Profile</button>
                             </form>
-                            <form method="GET" action="{% url 'business-products' %}">
+                            <form method="GET" action="{% url 'business-products' %}" style="padding: 10px;">
 
                                 <input type="hidden" name="business_id" value="{{ product.businessID }}">
-                                <button type="submit" class="btn btn-primary">Products</button>
+                                <button type="submit" class="btn btn-primary" style="padding: 10px; ">Store's Products</button>
                             </form>
                         </div>
                     </div>
@@ -113,30 +115,32 @@
             <div class="col-md-4 mb-3">
                 <div class="card">
                     <div class="card-body">
+                        <h3 class="card-title" style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">{{ product.name }}</h3>
                         <div class="img-wrapper" style="height: 200px; overflow: hidden;">
                             <img src="{{ product.image.url }}" class="card-img-top"
                                 style="object-fit: cover; width: 100%; height: 100%;" alt="{{ product.name }}">
                         </div>
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">{{ product.description }}</p>
-                        <p class="card-text">Price: ${{ product.price }}</p>
+                        <h3 class="card-title" style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">From: {{ product.businessName }}</h3>
+
+                        <p class="card-text" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">{{ product.description }}</p>
+                        <p class="card-text" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Price: ${{ product.price }}</p>
                         <div class="d-flex">
-                            <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}">
+                            <form id="add-to-cart-form" method="POST" action="{% url 'add_to_cart' product.id %}" >
                                 {% csrf_token %}
                                 <input type="hidden" name="product_id" value="{{ product.id }}">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" name="quantity" id="quantity" min="1" value="1" required>
-                                <button type="submit">Add to Cart</button>
+                                <label for="quantity" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" min="1" value="1" required style="width: 150px; margin-bottom: 5px; margin-top: 5px;">
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
                             </form>
-                            <form method="GET" action="{% url 'business-profile' %}">
+                            <form method="GET" action="{% url 'business-profile' %}" style="padding: 10px;">
 
                                 <input type="hidden" name="business_id" value="{{ product.businessID }}">
-                                <button type="submit" class="btn btn-primary">Business Profile</button>
+                                <button type="submit" class="btn btn-primary" style="padding: 10px;">Business Profile</button>
                             </form>
-                            <form method="GET" action="{% url 'business-products' %}">
+                            <form method="GET" action="{% url 'business-products' %}" style="padding: 10px;">
 
                                 <input type="hidden" name="business_id" value="{{ product.businessID }}">
-                                <button type="submit" class="btn btn-primary">Products</button>
+                                <button type="submit" class="btn btn-primary" style="padding: 10px; ">Store's Products</button>
                             </form>
                         </div>
                     </div>
@@ -170,7 +174,7 @@
                 {% endfor %}
             </div>
             <div class="row">
-                {% for product in products %}
+                <!-- {% for product in products %}
                     <div class="col-md-4">
                         <div class="card mb-3">
                             <div class="card-body">
@@ -204,7 +208,7 @@
                             </div>
                         </div>
                     </div>
-                {% endfor %}
+                {% endfor %} -->
             </div>
         {% endif %}
     {% endif %}

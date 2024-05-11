@@ -314,12 +314,12 @@ def orderSubmit(request):
             use_rewards = request.POST.get('rewards') == 'on'
             if use_rewards:
                 # Subtract reward_points * 0.1 from the total
-                total -= request.user.reward_points * Decimal('0.1')
+                total -= request.user.reward_points 
                 # Reset reward_points to 0
                 request.user.reward_points = 0
             else:
                 # Update reward points
-                request.user.reward_points += int(total * Decimal('0.1'))
+                request.user.reward_points += int(total )
 
             #request.user.reward_points += int(total * Decimal('0.1'))
             request.user.save()
