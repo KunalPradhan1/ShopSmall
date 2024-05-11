@@ -13,6 +13,7 @@ from django.db import transaction
 from django.core.mail import EmailMultiAlternatives, send_mail
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
+from decimal import Decimal
 
 
 
@@ -308,6 +309,18 @@ def orderSubmit(request):
         if cart_items.exists(): 
             total = sum(item.product.price * item.quantity for item in cart_items)
             context = {'cost': total}  # Define context outside to ensure availability
+            use_rewards = request.POST.get('rewards') == 'on'
+            if use_rewards:
+                # Subtract reward_points * 0.1 from the total
+                total -= request.user.reward_points * Decimal('0.1')
+                # Reset reward_points to 0
+                request.user.reward_points = 0
+            else:
+                # Update reward points
+                request.user.reward_points += int(total * Decimal('0.1'))
+
+            #request.user.reward_points += int(total * Decimal('0.1'))
+            request.user.save()
             try:
                 with transaction.atomic():
                     customerOrder, created = Orders.objects.get_or_create(
