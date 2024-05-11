@@ -11,7 +11,7 @@
 
     <style>
         body{
-            background-color: #fff6eb;
+            background-color: #EEEEEE;
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
     
   {%include 'shopComponents/navbar.html'%}
 <div class="formbold-main-wrapper">
-    <div class="formbold-form-wrapper">
+    <div class="formbold-form-wrapper" style="border-radius: 5%;">
       <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Business Profile</h1>
       <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="formbold-input-flex">
             <div>
-                <label for="businessname" class="formbold-form-label">Business Name</label>
+                <label for="businessname" class="formbold-form-label" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Business Name</label>
                 <input
                     type="text"
                     name="name"
@@ -39,7 +39,7 @@
     
         <div class="formbold-input-flex">
             <div>
-                <label for="address" class="formbold-form-label">Business Address</label>
+                <label for="address" class="formbold-form-label" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Business Address</label>
                 <input
                     type="text"
                     name="address"
@@ -52,7 +52,7 @@
         </div>
         <br>
         <div>
-            <label for="businessImage" class="formbold-form-label">Product Image</label>
+            <label for="businessImage" class="formbold-form-label" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Product Image</label>
             <input
                 type="file"
                 multiple
@@ -63,7 +63,7 @@
         <br>
         <br>
         <div>
-            <label for="message" class="formbold-form-label"> About Us </label>
+            <label for="message" class="formbold-form-label" style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"> About Us </label>
             <textarea
                 rows="6"
                 name="content"
@@ -100,7 +100,8 @@
       margin: 0 auto;
       max-width: 550px;
       width: 100%;
-      background: white;
+      background-color: rgba(180, 62, 252, .2);
+      padding: 40px;
     }
   
     .formbold-input-flex {
@@ -211,7 +212,7 @@
       margin-top: 25px;
     }
     .formbold-btn:hover {
-      box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+      background-color: rgba(106, 100, 241, 0.75);
     }
   
   </style>
