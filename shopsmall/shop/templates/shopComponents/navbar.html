@@ -18,12 +18,12 @@
       {% if user.is_authenticated%}
           {% if user.is_business %}
               <li class="nav-item active">
-                  <a class="nav-link" href="business/dashboard/">Dashboard</a>
+                  <a class="nav-link" href="{% url 'bDashboard' %}">Dashboard</a>
               </li>
           {%endif%}
           {% if user.is_customer %}
               <li class="nav-item active">
-                  <a class="nav-link" href="customer/dashboard/">Dashboard</a>
+                <a class="nav-link" href="{% url 'cDashboard' %}">Dashboard</a>
               </li>
           {%endif%}
       {% endif %}
