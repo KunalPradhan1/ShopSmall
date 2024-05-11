@@ -19,6 +19,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='images/', default = 'images/Balkarandeep_Singh_-_String_project.jpg', null = True, blank = True)
     businessID = models.IntegerField(null = True, default = 0)
     inventory = models.IntegerField(default = 0)
+    email = models.CharField(max_length = 45, default = 'Not provided')
     last_updated = models.DateTimeField(default=timezone.now, null=True)    
     businessName = models.CharField(max_length = 100, default = 'None')
     def __str__(self):

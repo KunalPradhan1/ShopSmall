@@ -10,6 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404, JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from django.db import transaction
+from django.core.mail import EmailMultiAlternatives, send_mail
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
 
 
 
@@ -199,6 +202,8 @@ def createProduct(request):
         price1 = request.POST['price']
         content1 = request.POST['content']
         inventory = request.POST['inventory']
+        email = request.user.email; 
+        print(email)
         date = timezone.now()
         image = request.FILES.get('image')
         findBusiness = Business.objects.filter(businessID = request.user.id)
@@ -293,6 +298,8 @@ def orderSubmit(request):
     if getattr(request.user, 'is_customer', False):
         cart = get_object_or_404(Cart, user=request.user, completed = False)  # Assuming you need to match cart ID to order_id
         cart_items = CartItem.objects.filter(cart=cart)
+        for items in cart_items: 
+            print(items.cart.user.email)
         if cart_items.exists(): 
             total = sum(item.product.price * item.quantity for item in cart_items)
             context = {'cost': total}  # Define context outside to ensure availability
@@ -306,6 +313,38 @@ def orderSubmit(request):
                     if created or not customerOrder.order_placed:
                         customerOrder.order_placed = timezone.now()
                         customerOrder.save()
+                        # email sent to customer
+                        welcome_message = "Thank you so much for shopping at ShopSmall today " + str(request.user.first_name) + " " + str(request.user.last_name) +  " and choosing to give your business to small businesses! Hundreds of thousands of small businesses all over the country close down due to competition and the struggles of maintaining a business and your business is truly beneficial to everyone!"
+                        subject = "Your Order Has Been Placed!"
+                        email = request.user.email
+
+                        context = {
+                            welcome_message: welcome_message
+                        }
+                        html_message = render_to_string("shopComponents/email.html", context = context)
+                        plain_message = strip_tags(html_message)
+                        message = EmailMultiAlternatives(
+                            subject = subject, 
+                            body = plain_message,
+                            from_email = "shopsmallbiz12@gmail.com", 
+                            to = [request.user.email]
+                        )
+                        message.attach_alternative(html_message, "text/html")
+                        message.send()
+
+                        # for items in cart_items: 
+                        #     businessEmail = items.product.email
+                            
+                        #     send_mail(
+                        #         "You have a new order!", 
+                        #         f"Customer email: {request.user.email} Customer Phone Number: {request.user.phone_number} 
+                        #         Ordered: {items.product.name} Quantity: {items.quantity}", 
+                        #         "shopsmallbiz12@gmail.com", 
+                        #         ""
+                                   
+                                
+                        #     )
+
 
                     cart.completed = True; 
                     cart.save()
