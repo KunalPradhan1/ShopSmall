@@ -1,6 +1,7 @@
 .container {
     width: 35%;
-    background: 	#ffdead;
+    background: #A39594;
+    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,10 +14,10 @@
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 20px;
-    text-align: center; /* Center the text horizontally */;
+    font-family: monospace;
+    text-align: center; /* Center the text horizontally */
     
     padding-top: 20px; /* Add some padding at the top */
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"
 
 }
 .login-container {
@@ -94,38 +95,24 @@ label[for="id_password"] {
 
 label[for="id_is_business"] {
   /* Add your styles for the is_business label here */
-  font-size: 20px;
   font-weight: bolder;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  text-align: center;
-  margin: 0 auto;
 }
 label[for="id_is_customer"] {
   /* Add your styles for the is_business label here */
-  font-size: 20px;
   font-weight: bolder;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  text-align: center;
-  margin: 0 auto;
 }
 
 label[for="id_phone_number"] {
   /* Add your styles for the is_business label here */
-  font-size: 20px;
-  display: block;
   font-weight: bolder;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   text-align: center;
-  margin: 0 auto;
-  
 }
 
 label[for="id_location"] {
   /* Add your styles for the is_business label here */
-  font-size: 20px;
-  display: block;
   font-weight: bolder;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  text-align: center;
-  margin: 0 auto;
 }
