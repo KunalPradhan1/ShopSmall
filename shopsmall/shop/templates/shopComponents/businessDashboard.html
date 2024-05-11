@@ -55,9 +55,7 @@
     <br>
     <div class="container">
         <div class="row justify-content-center">
-            <a href="{% url 'add'%}" class="button">Create a Product</a>
-            <a href="{% url 'change'%}" class="button">Edit a Product</a>
-            <a href="{% url 'delete'%}" class="button">Delete a Product</a>
+            
 
             <div class="col-md-8 products-container">
                 <h1 class="text-center">Products</h1>
@@ -76,6 +74,11 @@
 
                     </div>
                 {% endfor %}
+                <div class="text-center">
+                    <a href="{% url 'add'%}" class="button">Create a Product</a>
+                    <a href="{% url 'change'%}" class="button">Edit a Product</a>
+                    <a href="{% url 'delete'%}" class="button">Delete a Product</a>
+                </div>
             </div>
         </div>
     </div>
