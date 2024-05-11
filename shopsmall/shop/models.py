@@ -38,6 +38,7 @@ class Business(models.Model):
     about = models.TextField()
     address = models.CharField(max_length = 50)
     businessID = models.IntegerField(null = True, default = 0)
+    firstImage = models.ImageField(null = True, blank = True, upload_to = 'images/', default = 'images/Balkarandeep_Singh_-_String_project.jpg')
 
 class BusinessImage(models.Model):
     business_profile = models.ForeignKey(Business, related_name='images', on_delete=models.CASCADE)

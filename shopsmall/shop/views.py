@@ -143,10 +143,12 @@ def search(request):
         searched = request.POST['searched']
         products = Product.objects.filter(name__startswith=searched)
         business = Business.objects.filter(businessName__startswith=searched)
+        for image in business: 
+            print(image.firstImage)
         search_type = request.POST.get('search_type')
         if search_type is None:
             search_type = "Both"
-        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products, 'business':business, 'search_type':search_type})
+        return render(request, "shopComponents/search.html", {'searched':searched, 'products':products, 'business':business, 'search_type':search_type,})
     else:
         return render(request, "shopComponents/search.html")
     
@@ -191,6 +193,9 @@ def businessProfile(request):
         try:
             profile = request.user.business_profile
             business_images = profile.images.all()
+            business = Business.objects.filter(user = request.user)
+            business.firstImage = business_images.first().images
+            print(vars(business))
             context = {
                 'images': business_images, 
                 'profile': profile
