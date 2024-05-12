@@ -15,7 +15,7 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent" >
     <ul class="navbar-nav mr-auto">
-      {% if user.is_authenticated%}
+      {% if user.is_authenticated %}
           {% if user.is_business %}
               <li class="nav-item active">
                   <a class="nav-link" href="{% url 'bDashboard' %}">Dashboard</a>
@@ -24,6 +24,9 @@
           {% if user.is_customer %}
               <li class="nav-item active">
                 <a class="nav-link" href="{% url 'cDashboard' %}">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/write-review">Write Review</a>
               </li>
           {%endif%}
       {% endif %}
@@ -34,29 +37,27 @@
         <input type="radio" id="products" name="search_type" value="Products"> Products
         <button type="submit">Submit</button>
       </form>
-      {% if user.is_authenticated%}
-        <li class="nav-item">
-            <a class="nav-link" href="/cart">Cart</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/logout">Logout</a>
-        </li>
-      {% else %}
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/register">Register</a>
-          </li>
-          
-        </ul>
-      {%endif%}
-     
     </ul>
-    
+    <ul class="navbar-nav ml-auto">
+      {% if user.is_authenticated %}
+        {% if user.is_customer %}
+          <li class="nav-item">
+              <a class="nav-link" href="/cart">Cart</a>
+          </li>
+        {% endif %}
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/register">Register</a>
+        </li>
+      {% endif %}
+    </ul>
   </div>
-
 
   <script>
     document.getElementById('search-form').addEventListener('submit', function(event) {

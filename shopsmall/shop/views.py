@@ -116,11 +116,13 @@ def view_profile(request):
     findImage = BusinessImage.objects.filter(business_profile = findBusiness)
     business_profile = get_object_or_404(Business, businessID=business_id)
     findImage = BusinessImage.objects.filter(business_profile=business_profile)
+    reviews = Review.objects.filter(business=findBusiness)
     if(findImage.exists()):
         print("exists")
     context = {
         'images': findImage, 
-        'profile':business_profile
+        'profile':business_profile,
+        'reviews':reviews
     }
     return render(request, 'shopComponents/businessProfile.html',context)
 
