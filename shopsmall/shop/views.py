@@ -22,8 +22,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def home(request):
-    return render(request, "shopComponents/home.html", {'user': request.user})
-
+    newest_businesses = Business.objects.order_by('-user__date_joined')[:3]
+    return render(request, "shopComponents/home.html", {'user': request.user, 'newest_businesses': newest_businesses})
 @login_required(login_url = "login")
 def customerDashboard(request):
     if getattr(request.user, 'is_customer', False):
