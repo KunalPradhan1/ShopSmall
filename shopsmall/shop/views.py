@@ -114,13 +114,15 @@ def view_profile(request):
     business_id = request.GET.get('business_id')
     findBusiness = get_object_or_404(Business, businessID = business_id)
     findImage = BusinessImage.objects.filter(business_profile = findBusiness)
+    business_profile = get_object_or_404(Business, businessID=business_id)
+    findImage = BusinessImage.objects.filter(business_profile=business_profile)
     if(findImage.exists()):
         print("exists")
     context = {
-        'business': findBusiness, 
-        'images': findImage
+        'images': findImage, 
+        'profile':business_profile
     }
-    return render(request, 'customer/viewProfile.html',context)
+    return render(request, 'shopComponents/businessProfile.html',context)
 
 @login_required(login_url = "login")
 def view_products(request):

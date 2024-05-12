@@ -55,12 +55,12 @@
                         <div class="d-flex">
                             <form method="GET" action="{% url 'business-profile' %}">
                             
-                                <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                <input type="hidden" name="business_id" value="{{ bus.businessID }}">
                                 <button type="submit" class="btn btn-primary" style="width: 150px; height: 50px; margin-right: 10px;">Business Profile</button>
                             </form>
                             <form method="GET" action="{% url 'business-products' %}">
                                 
-                                <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                <input type="hidden" name="business_id" value="{{ bus.businessID }}">
                                 <button type="submit" class="btn btn-primary" style="width: 150px; height: 50px; margin-right: 0px;">Products</button>
                             </form>             
                         </div>
@@ -165,12 +165,12 @@
                         <div class="d-flex">
                             <form method="GET" action="{% url 'business-profile' %}">
                             
-                                <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                <input type="hidden" name="business_id" value="{{ bus.businessID }}">
                                 <button type="submit" class="btn btn-primary" style="width: 150px; height: 50px; margin-right: 10px;">Business Profile</button>
                             </form>
                             <form method="GET" action="{% url 'business-products' %}">
                                 
-                                <input type="hidden" name="business_id" value="{{ product.businessID }}">
+                                <input type="hidden" name="business_id" value="{{ bus.businessID }}">
                                 <button type="submit" class="btn btn-primary" style="width: 150px; height: 50px; margin-right: 0px;">Products</button>
                             </form>             
                         </div>
