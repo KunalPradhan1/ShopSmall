@@ -32,12 +32,23 @@ Steps:
     ```bash
     pip install pillow
     ```
+    - For Mac/Linux:
+    ```bash
+    pip3 install pillow
+    ```
 
 5. **Apply migrations and start the development server:**
+   - For Windows:
     ```bash
     python manage.py makemigrations
     python manage.py migrate
     python manage.py runserver
+    ```
+   - For Mac/Linux:
+    ```bash
+    python3 manage.py makemigrations
+    python3 manage.py migrate
+    python3 manage.py runserver
     ```
 
 6. **Access the application:**
