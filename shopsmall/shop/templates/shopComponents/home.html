@@ -24,99 +24,33 @@
     <div class = "container" style="background-color: rgba(180, 62, 252, .2); height: 500px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
         <h1>Shop <span class="auto-type"></span></h1>
     </div>
-    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"> Categories </h1>
-    <div id="carouselExampleControls" class="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <div class="card" style="width: 19em; ">
-                    <div class="img-wrapper" style="width: 50%;"><img src="{% static 'images/dish.png' %}" class="d-block w-100" alt="..."> </div>
+    <h1 style="text-align: center; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif"> Newest Businesses </h1>
+
+    <div class="row">
+        {% for business in newest_businesses %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 1</h5>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <div class="img-wrapper" style="height: 200px; overflow: hidden;">
+                            <img src="{{ business.firstImage.url }}" class="card-img-top"
+                                style="object-fit: cover; width: 100%; height: 100%;" alt="{{ business.businessName }}">
+                        </div>
+                        <h5 class="card-title"style="color:black; text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Business: {{ business.businessName }}</h5>
+                        <p class="card-text"style="color: black; text-align: center; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Description:{{ business.about }}</p>
+                        <div class="d-flex" style="justify-content: center;">
+                            <form method="GET" action="{% url 'business-profile' %}">
+                                <input type="hidden" name="business_id" value="{{ business.businessID }}">
+                                <button type="submit" class="btn btn-primary" style="width: 150px; height: 50px; margin-right: 10px;">Business Profile</button>
+                            </form>
+                            <form method="GET" action="{% url 'business-products' %}">
+                                <input type="hidden" name="business_id" value="{{ business.businessID }}">
+                                <button type="submit" class="btn btn-primary" style="width: 150px; height: 50px; margin-right: 0px;">Products</button>
+                            </form>             
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="carousel-item">
-                <div class="card" style="width: 19em;">
-                    <div class="img-wrapper"><img src="{% static 'images/nightlife.png' %}" class="d-block w-100" alt="..."> </div>
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 2</h5>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card" style="width: 19em;">
-                    <div class="img-wrapper"><img src="{% static 'images/tools.png' %}" class="d-block w-100" alt="..."> </div>
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 3</h5>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card" style="width: 19em;">
-                    <div class="img-wrapper"><img src="{% static 'images/Lightning_McQueen.png' %}" class="d-block w-100" alt="..."> </div>
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 4</h5>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card" style="width: 19em;">
-                    <div class="img-wrapper"><img src="{% static 'images/Lightning_McQueen.png' %}" class="d-block w-100" alt="..."> </div>
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 5</h5>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card" style="width: 19em;">
-                    <div class="img-wrapper"><img src="{% static 'images/Lightning_McQueen.png' %}" class="d-block w-100" alt="..."> </div>
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 6</h5>
-                        <a href="#"class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card" style="width: 19em;">
-                    <div class="img-wrapper"><img src="{% static 'images/Lightning_McQueen.png' %}" class="d-block w-100" alt="..."> </div>
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 7</h5>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card" style="width: 19em;">
-                    <div class="img-wrapper"><img src="{% static 'images/Lightning_McQueen.png' %}" class="d-block w-100" alt="..."> </div>
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 8</h5>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <div class="card" style="width: 19em;">
-                    <div class="img-wrapper"><img src="{% static 'images/Lightning_McQueen.png' %}" class="d-block w-100" alt="..."> </div>
-                    <div class="card-body">
-                        <h5 class="card-title" style="text-align: center;">Card title 9</h5>
-                        <a href="#" class="btn btn-primary">Go somewhere</a> <!-- Button will just type out the category in search bar and thats how categories will be done -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+        {% endfor %}
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
