@@ -22,7 +22,7 @@ urlpatterns = [
     path("deleteproduct/", views.delete, name = "delete"), 
     path("orderPlaced/", views.orderSubmit, name = 'order_submit'),
     path('remove_from_cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
-
+    path('write-review/', views.write_review, name='write_review'),
 
 
 ]

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
 from .forms import SignUpForm, LoginForm
 from .models import User, Product
-from .models import User, Product, Business, BusinessImage, Cart, CartItem, Orders
+from .models import User, Product, Business, BusinessImage, Cart, CartItem, Orders, Review
 from django.contrib.auth.decorators import login_required
 from django.http import Http404, JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
@@ -442,3 +442,37 @@ def remove_from_cart(request, item_id):
     item.delete()
     return redirect('cart')
     
+
+@login_required(login_url='login')   
+def write_review(request):
+    if not getattr(request.user, 'is_customer', False):
+        return HttpResponse("Only customer accounts can access this page.", status=403)
+    if request.method == 'POST':
+        business_id = request.POST.get('business')
+        print("Business ID from form:", business_id)
+        review_text = request.POST.get('review')
+        review_submitted = True
+
+        if not business_id:
+            return HttpResponse("Business ID is required.", status=400)
+
+        # Get the business object based on the selected ID
+        business = Business.objects.get(pk=business_id)
+        
+        # Create a new review object and save it to the database
+        Review.objects.create(
+            business=business,
+            customer=request.user,  # Assuming user is logged in
+            review_text=review_text
+        )
+        
+        # Retrieve businesses for rendering the form again
+        businesses = Business.objects.all()
+        
+        # Redirect to a success page or any other page
+        return render(request, 'customer/review.html', {'businesses': businesses, 'review_submitted': review_submitted})
+    else:
+        # Handle GET request to render the form
+        businesses = Business.objects.all()
+        return render(request, 'customer/review.html', {'businesses': businesses})
+
